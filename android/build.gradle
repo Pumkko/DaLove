@@ -25,6 +25,7 @@ allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        jcenter()
         google()
         maven {
             // All of Detox' artifacts are provided via the npm module
