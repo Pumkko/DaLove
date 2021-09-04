@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, ImageBackground, Touchable, TouchableOpacity, View } from "react-native";
 import MainViewStyle from "./MainView.style";
+import { RandomVideoService } from "./services/random-video.services";
 
 export const MainView = ({ navigation }) => {
   return (
@@ -13,7 +14,8 @@ export const MainView = ({ navigation }) => {
         <TouchableOpacity style={MainViewStyle.loveButton}
         onPress={
           () => {
-            navigation.navigate('Video');
+            const service = new RandomVideoService();
+            navigation.navigate('Video', service.getRandomVideo());
           }
         }>
           <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
