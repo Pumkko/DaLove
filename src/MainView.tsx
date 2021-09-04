@@ -2,21 +2,26 @@ import React from "react";
 import { Text, ImageBackground, Touchable, TouchableOpacity, View } from "react-native";
 import MainViewStyle from "./MainView.style";
 
-export const MainView = () => {
+export const MainView = ({ navigation }) => {
   return (
 
-      <ImageBackground 
-        source={require('./assets/images/Lake.jpg')}
-        style={MainViewStyle.background}>
+    <ImageBackground
+      source={require('./assets/images/Lake.jpg')}
+      style={MainViewStyle.background}>
 
-        <View style={MainViewStyle.container}>
-          <TouchableOpacity style={MainViewStyle.loveButton}>
-            <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={MainViewStyle.container}>
+        <TouchableOpacity style={MainViewStyle.loveButton}
+        onPress={
+          () => {
+            navigation.navigate('Video');
+          }
+        }>
+          <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
+        </TouchableOpacity>
+      </View>
 
 
-      </ImageBackground>
+    </ImageBackground>
   );
 }
 
