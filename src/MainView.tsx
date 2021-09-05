@@ -14,8 +14,7 @@ export const MainView = ({ navigation }) => {
         <TouchableOpacity style={MainViewStyle.loveButton}
         onPress={
           () => {
-            const service = new RandomVideoService();
-            navigation.navigate('Video', service.getRandomVideo());
+            navigation.navigate('Video');
           }
         }>
           <Text style={MainViewStyle.loveButtonText}>I need some love</Text>

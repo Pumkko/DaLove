@@ -4,26 +4,30 @@
  */
 export class RandomVideoService {
 
+    // J'aimerais bien trouver une meilleure solution mais vraiment j'ai pas
+    // utiliser l'uri dans la vidéo ne marche pas, mais peut-être que plus tard ces vidéos seront stockées sur internet
     readonly videos = [
-        'DanielGotRaped.mp4',
-        'DanielIsHappyToSeeUs.mp4',
-        'DanielLovesKevin.mp4',
-        'DanielNeedsToTakeAShit.mp4',
-        'DanielSliding.mp4',
-        'DanielWillDie.mp4',
-        'IWantYouInMyRoom.mp4',
-        'KevinFitsInALocker.mp4',
-        'Randelo.mp4',
-        'Revenge.mp4',
-        'SexierLeon.mp4',
-        'Tattoos.mp4',
-        'TryScorpions.mp4',
-        'WomenToilets.mp4',
-        'julian.mp4'
+        require('../assets/videos/DanielGotRaped.mp4'),
+        require('../assets/videos/DanielIsHappyToSeeUs.mp4'),
+        require('../assets/videos/DanielLovesKevin.mp4'),
+        require('../assets/videos/DanielNeedsToTakeAShit.mp4'),
+        require('../assets/videos/DanielSliding.mp4'),
+        require('../assets/videos/DanielWillDie.mp4'),
+        require('../assets/videos/IWantYouInMyRoom.mp4'),
+        require('../assets/videos/KevinFitsInALocker.mp4'),
+        require('../assets/videos/Randelo.mp4'),
+        require('../assets/videos/Revenge.mp4'),
+        require('../assets/videos/SexierLeon.mp4'),
+        require('../assets/videos/Tattoos.mp4'),
+        require('../assets/videos/TryScorpions.mp4'),
+        require('../assets/videos/WomenToilets.mp4'),
+        require('../assets/videos/julianShakira.mp4'),
+        require('../assets/videos/julianTitanic.mp4'),
+        require('../assets/videos/julianCatcher.mp4'),
+        require('../assets/videos/sexyJulian.mp4')
     ]
 
-
-    getRandomVideo(): string {
+    getRandomVideo(): any {
         const randomId = Math.floor(Math.random() * (this.videos.length - 1));
         return this.videos[randomId];
     }
