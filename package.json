@@ -13,6 +13,7 @@
     "@aws-sdk/client-cognito-identity": "^3.30.0",
     "@aws-sdk/client-s3": "^3.30.0",
     "@aws-sdk/credential-provider-cognito-identity": "^3.30.0",
+    "@aws-sdk/s3-request-presigner": "^3.30.0",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "aws-sdk": "^2.985.0",

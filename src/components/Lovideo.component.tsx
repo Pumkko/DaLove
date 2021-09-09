@@ -16,12 +16,13 @@ export const Lovideo = ({ navigation }) => {
   const height = Dimensions.get('screen').height;
   let player: any
 
-  const [randomVideo, setRandomVideo] = useState<any>(null);
+  const [videoUrl, setVideoUrl] = useState<any>(null);
 
   useEffect(() => {
     const service = new RandomVideoService();
-    const videoName = service.getRandomVideo();
-    setRandomVideo(videoName);
+    service.getRandomVideo().then((url) => {
+      setVideoUrl(url);
+    });
   });
 
 
@@ -32,7 +33,7 @@ export const Lovideo = ({ navigation }) => {
           ref={(ref: any) => {
             player = ref
           }}
-          source={randomVideo}
+          source={{uri: videoUrl}}
           resizeMode={'contain'}
           style={
             {

@@ -1,9 +1,9 @@
 
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { parseUrl } from '@aws-sdk/url-parser';
-
 import "react-native-get-random-values";
 import "react-native-url-polyfill/auto";
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 /**
  * Renvoi le nom d'une vidéo choisi au hasard parmi le repertoire assets/video
@@ -27,16 +27,13 @@ export class RandomVideoService {
         });
     }
 
-    getRandomVideo(): any {
-        this.client.send(new GetObjectCommand({
+    async getRandomVideo(): Promise<string> {
+        const getCommand = new GetObjectCommand({
             Bucket: 'dalove',
             Key: 'daniel_has_to_run.mp4'
-        })).then(response => {
-            return response.ContentLength;
-        }).catch(error => {
-            console.log(error);
         });
 
-        return null;
+        const url = await getSignedUrl(this.client, getCommand, { expiresIn: 3600 });
+        return url;
     }
 }
