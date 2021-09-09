@@ -1,34 +1,42 @@
 
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { parseUrl } from '@aws-sdk/url-parser';
+
+import "react-native-get-random-values";
+import "react-native-url-polyfill/auto";
+
 /**
  * Renvoi le nom d'une vidéo choisi au hasard parmi le repertoire assets/video
  */
 export class RandomVideoService {
-
     // J'aimerais bien trouver une meilleure solution mais vraiment j'ai pas
     // utiliser l'uri dans la vidéo ne marche pas, mais peut-être que plus tard ces vidéos seront stockées sur internet
-    readonly videos = [
-        require('../assets/videos/DanielGotRaped.mp4'),
-        require('../assets/videos/DanielIsHappyToSeeUs.mp4'),
-        require('../assets/videos/DanielLovesKevin.mp4'),
-        require('../assets/videos/DanielNeedsToTakeAShit.mp4'),
-        require('../assets/videos/DanielSliding.mp4'),
-        require('../assets/videos/DanielWillDie.mp4'),
-        require('../assets/videos/IWantYouInMyRoom.mp4'),
-        require('../assets/videos/KevinFitsInALocker.mp4'),
-        require('../assets/videos/Randelo.mp4'),
-        require('../assets/videos/Revenge.mp4'),
-        require('../assets/videos/SexierLeon.mp4'),
-        require('../assets/videos/Tattoos.mp4'),
-        require('../assets/videos/TryScorpions.mp4'),
-        require('../assets/videos/WomenToilets.mp4'),
-        require('../assets/videos/julianShakira.mp4'),
-        require('../assets/videos/julianTitanic.mp4'),
-        require('../assets/videos/julianCatcher.mp4'),
-        require('../assets/videos/sexyJulian.mp4')
-    ]
+    readonly videos = []
+
+    private client: S3Client;
+    constructor() {
+        const region = "eu-west-3";
+
+        this.client = new S3Client({
+            region,
+            urlParser: parseUrl,
+            credentials: {
+                accessKeyId: "",
+                secretAccessKey: ''
+            }
+        });
+    }
 
     getRandomVideo(): any {
-        const randomId = Math.floor(Math.random() * (this.videos.length - 1));
-        return this.videos[randomId];
+        this.client.send(new GetObjectCommand({
+            Bucket: 'dalove',
+            Key: 'daniel_has_to_run.mp4'
+        })).then(response => {
+            return response.ContentLength;
+        }).catch(error => {
+            console.log(error);
+        });
+
+        return null;
     }
 }

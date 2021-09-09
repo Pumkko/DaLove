@@ -7,6 +7,7 @@ import { MainView } from './src/MainView';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+
   return (
     <NavigationContainer>
       <Stack.Navigator
