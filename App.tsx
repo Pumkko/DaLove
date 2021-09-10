@@ -1,32 +1,36 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React from 'react';
 import Lovideo from './src/components/Lovideo.component';
 import { MainView } from './src/MainView';
 
-const Stack = createNativeStackNavigator();
 
-const App = () => {
+import { createStackNavigator } from '@react-navigation/stack';
+import { RootStackParamList } from './src/navigation/navigation-types';
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false
-        }}>
 
-        <Stack.Screen
-          name='MainView'
-          component={MainView} />
+const Stack = createStackNavigator<RootStackParamList>();
 
-        <Stack.Screen
-          name='Video'
-          component={Lovideo} />
 
-      </Stack.Navigator>
+const App: React.FC = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator
+                screenOptions={{
+                    headerShown: false
+                }}>
 
-    </NavigationContainer>
-  )
+                <Stack.Screen
+                    name='MainView'
+                    component={MainView} />
+
+                <Stack.Screen
+                    name='Video'
+                    component={Lovideo} />
+
+            </Stack.Navigator>
+
+        </NavigationContainer>
+    );
 };
 
 export default App;
