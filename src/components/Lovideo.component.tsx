@@ -6,9 +6,6 @@ import { Dimensions } from 'react-native';
 import Video from 'react-native-video'
 import { RandomVideoService } from "../services/random-video.services";
 
-
-
-
 export const Lovideo = ({ navigation }) => {
 
 
@@ -22,6 +19,9 @@ export const Lovideo = ({ navigation }) => {
     const service = new RandomVideoService();
     service.getRandomVideo().then((url) => {
       setVideoUrl(url);
+    })
+    .catch(error => {
+      // Deal with the error
     });
   });
 

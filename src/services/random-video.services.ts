@@ -11,7 +11,27 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 export class RandomVideoService {
     // J'aimerais bien trouver une meilleure solution mais vraiment j'ai pas
     // utiliser l'uri dans la vidéo ne marche pas, mais peut-être que plus tard ces vidéos seront stockées sur internet
-    readonly videos = []
+    readonly videos = [
+        'DanielGotRaped.mp4',
+        'DanielIsHappyToSeeUs.mp4',
+        'DanielLovesKevin.mp4',
+        'DanielNeedsToTakeAShit.mp4',
+        'DanielSliding.mp4',
+        'DanielWillDie.mp4',
+        'IWantYouInMyRoom.mp4',
+        'JulienWeirdSexuality.mp4',
+        'KevinFitsInALocker.mp4',
+        'Randelo.mp4',
+        'Revenge.mp4',
+        'SexierLeon.mp4',
+        'Tattoos.mp4',
+        'TryScorpions.mp4',
+        'WomenToilets.mp4',
+        'julianCatcher.mp4',
+        'julianShakira.mp4',
+        'julianTitanic.mp4',
+        'sexyJulian.mp4',
+    ]
 
     private client: S3Client;
     constructor() {
@@ -27,13 +47,16 @@ export class RandomVideoService {
         });
     }
 
-    async getRandomVideo(): Promise<string> {
+    getRandomVideo(): Promise<string> {
+
+        const randomId = Math.floor(Math.random() * this.videos.length - 1);
+        const randomVideoName = this.videos[randomId];
+
         const getCommand = new GetObjectCommand({
             Bucket: 'dalove',
-            Key: 'daniel_has_to_run.mp4'
+            Key: randomVideoName
         });
 
-        const url = await getSignedUrl(this.client, getCommand, { expiresIn: 3600 });
-        return url;
+        return getSignedUrl(this.client, getCommand, { expiresIn: 3600 });
     }
 }
