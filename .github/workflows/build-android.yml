@@ -11,17 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-
     steps:
     - uses: actions/checkout@v2
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-       node-version: ${{ matrix.node-version }}
+    - uses: actions/setup-node@master
       
     - name: Run Npm Install
       run: npm install
@@ -33,11 +25,9 @@ jobs:
         distribution: 'adopt'
         cache: gradle
         
-    - name: Switch to android folder 
-      run: cd android/
+    - name: Switch to android folder and make gradlew executable
+      run: cd android && chmod +x ./gradlew
       
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Build Android App
+      run: |
+        cd android && ./gradlew build
