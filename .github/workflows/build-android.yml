@@ -30,4 +30,4 @@ jobs:
       
     - name: Build Android App
       run: |
-        cd android && ./gradlew build
+        cd android && ./gradlew bundleRelease --no-daemon
