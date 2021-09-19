@@ -4,8 +4,8 @@ const MainViewStyle = StyleSheet.create({
 
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-end'
+        alignItems: 'flex-start',
+        justifyContent: 'space-between'
     },
 
     background: {
@@ -13,7 +13,19 @@ const MainViewStyle = StyleSheet.create({
         height: '100%'
     },
 
+    loginButton: {
+        alignSelf: 'flex-end',
+        padding: 10
+    },
+
+    loginButtonText: {
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 18
+    },
+
     loveButton: {
+        alignSelf: 'center',
         width: '60%',
         padding: 10,
         marginBottom: 20,

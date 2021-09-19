@@ -5,7 +5,10 @@ import {
     ImageBackground,
     TouchableOpacity,
     View,
+    Touchable,
 } from 'react-native';
+import Auth0 from 'react-native-auth0';
+import { AuthConfiguration } from './configuration/auth-configuration.conf';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
 
@@ -18,13 +21,19 @@ type Props = {
   navigation: ProfileScreenNavigationProp;
 };
 
-export const MainView: React.FC<Props> = ({navigation}: Props) => {
+const auth0 = new Auth0(AuthConfiguration);
+
+export const MainView: React.FC<Props> = ({ navigation }: Props) => {
     return (
         <ImageBackground
             source={require('./assets/images/Lake.jpg')}
             style={MainViewStyle.background}
         >
             <View style={MainViewStyle.container}>
+                <TouchableOpacity style={MainViewStyle.loginButton}>
+                    <Text style={MainViewStyle.loginButtonText}>Login</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
                     onPress={() => {
