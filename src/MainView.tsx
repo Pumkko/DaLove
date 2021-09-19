@@ -1,14 +1,12 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     ImageBackground,
     TouchableOpacity,
-    View,
-    Touchable,
+    View
 } from 'react-native';
-import Auth0 from 'react-native-auth0';
-import { AuthConfiguration } from './configuration/auth-configuration.conf';
+import { LoginComponent } from './components/Login.component';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
 
@@ -21,19 +19,21 @@ type Props = {
   navigation: ProfileScreenNavigationProp;
 };
 
-const auth0 = new Auth0(AuthConfiguration);
 
 export const MainView: React.FC<Props> = ({ navigation }: Props) => {
+
+    const [,setAccessToken] = useState<string | undefined>();
+
     return (
         <ImageBackground
             source={require('./assets/images/Lake.jpg')}
             style={MainViewStyle.background}
         >
             <View style={MainViewStyle.container}>
-                <TouchableOpacity style={MainViewStyle.loginButton}>
-                    <Text style={MainViewStyle.loginButtonText}>Login</Text>
-                </TouchableOpacity>
-
+                <LoginComponent hasAccessTokenCallback={(token) => {
+                    setAccessToken(token);
+                }}></LoginComponent>
+   
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
                     onPress={() => {
