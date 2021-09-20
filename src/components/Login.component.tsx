@@ -1,31 +1,29 @@
 
+import { useInjection } from 'inversify-react';
 import React, { useState } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import Auth0 from 'react-native-auth0';
-import { AuthConfiguration } from '../configuration/auth-configuration.conf';
+import { AppContainerTypes } from '../inversify/app-container-types';
 import MainViewStyle from '../MainView.style';
-
-const auth0 = new Auth0(AuthConfiguration);
+import { IAuthService } from '../services/auth0.service';
 
 type Props = {
     hasAccessTokenCallback: (accessToken: string) => void;
 };
 
+
 export const LoginComponent: React.FC<Props> = (props) => {
 
     const [hasAccessToken, setHasAccessToken] = useState(false);
 
+    const auth0 = useInjection<IAuthService>(AppContainerTypes.IAuthService);
+
     if(!hasAccessToken)
     {
         return (
-            <TouchableOpacity style={MainViewStyle.loginButton} onPress={() => {
-                auth0.webAuth.authorize({
-                    audience: AuthConfiguration.audience,
-                    scope: 'openid profile email, read:memories'
-                }).then((credentiels) => {
-                    setHasAccessToken(true);
-                    props.hasAccessTokenCallback(credentiels.accessToken);
-                });
+            <TouchableOpacity style={MainViewStyle.loginButton} onPress={async () => {
+                const token = await auth0.login();
+                props.hasAccessTokenCallback(token);
+                setHasAccessToken(true);
             }}>
                 <Text style={MainViewStyle.loginButtonText}>Login</Text>
             </TouchableOpacity>
@@ -33,11 +31,10 @@ export const LoginComponent: React.FC<Props> = (props) => {
     }
     else {
         return (
-            <TouchableOpacity style={MainViewStyle.loginButton} onPress={() => {
-                auth0.webAuth.clearSession().then(() => {
-                    setHasAccessToken(false);
-                    props.hasAccessTokenCallback('');
-                });
+            <TouchableOpacity style={MainViewStyle.loginButton} onPress={async () => {
+                await auth0.logout();
+                props.hasAccessTokenCallback('');
+                setHasAccessToken(false);
             }}>
                 <Text style={MainViewStyle.loginButtonText}>Log out</Text>
             </TouchableOpacity>

@@ -1,59 +1,31 @@
-
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { parseUrl } from '@aws-sdk/url-parser';
+import { injectable } from 'inversify';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-/**
- * Renvoi le nom d'une vidéo choisi au hasard parmi le repertoire assets/video
- */
-export class RandomVideoService {
-    readonly videos = [
-        'DanielGotRaped.mp4',
-        'DanielIsHappyToSeeUs.mp4',
-        'DanielLovesKevin.mp4',
-        'DanielNeedsToTakeAShit.mp4',
-        'DanielSliding.mp4',
-        'DanielWillDie.mp4',
-        'IWantYouInMyRoom.mp4',
-        'JulienWeirdSexuality.mp4',
-        'KevinFitsInALocker.mp4',
-        'Randelo.mp4',
-        'Revenge.mp4',
-        'SexierLeon.mp4',
-        'Tattoos.mp4',
-        'TryScorpions.mp4',
-        'WomenToilets.mp4',
-        'julianCatcher.mp4',
-        'julianShakira.mp4',
-        'julianTitanic.mp4',
-        'sexyJulian.mp4',
-    ]
+export interface UriVideoSource {
+    uri: string;
+}
 
-    private client: S3Client;
-    constructor() {
-        const region = 'eu-west-3';
+export type VideoSource = NodeRequire | UriVideoSource;
 
-        this.client = new S3Client({
-            region,
-            urlParser: parseUrl,
-            credentials: {
-                accessKeyId: '',
-                secretAccessKey: ''
-            }
-        });
+export interface IRandomVideoService {
+    getRandomVideo(): Promise<VideoSource>;
+}
+
+@injectable()
+export class FakeRandomVideoServiceFromAssets implements IRandomVideoService {
+    private readonly fake_Video = require('../assets/mock-video/SampleVideo_720x480_1mb.mp4');
+
+    getRandomVideo(): Promise<VideoSource> {
+        return Promise.resolve(this.fake_Video);
     }
+}
 
-    getRandomVideo(): Promise<string> {
-        const randomId = Math.floor(Math.random() * this.videos.length - 1);
-        const randomVideoName = this.videos[randomId];
+@injectable()
+export class RandomVideoService implements IRandomVideoService {
+    getRandomVideo(): Promise<VideoSource> {
+        const source = { uri: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4' };
 
-        const getCommand = new GetObjectCommand({
-            Bucket: 'dalove',
-            Key: randomVideoName
-        });
-
-        return getSignedUrl(this.client, getCommand, { expiresIn: 3600 });
+        return Promise.resolve(source);
     }
 }
