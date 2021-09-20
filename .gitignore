@@ -7,9 +7,6 @@
 # $ git config --global mergetool.keepBackup false
 *.orig
 
-# configuration files
-*.conf.ts
-
 # Videos et images
 *.jpg
 *.mp4
