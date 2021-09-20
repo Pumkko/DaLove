@@ -19,8 +19,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Replace development conf content
-      uses: DamianReeves/write-file-action@latest
+    - name: Write File
+      uses: DamianReeves/write-file-action@v1.0
+
       with:
         path: .env.development
         contents: |
