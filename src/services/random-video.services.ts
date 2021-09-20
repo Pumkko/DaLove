@@ -26,6 +26,7 @@ export class FakeRandomVideoService implements IRandomVideoService {
 /**
  * Real class that we will use to target the DaLove Server
  */
+@injectable()
 export class RandomVideoService implements IRandomVideoService{
     getRandomVideo(): Promise<VideoSource> {
         throw new Error('Method not implemented.');
