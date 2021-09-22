@@ -12,20 +12,20 @@ export interface IRandomVideoService {
     getRandomVideo(): Promise<VideoSource>;
 }
 
-@injectable()
-export class FakeRandomVideoServiceFromAssets implements IRandomVideoService {
-    private readonly fake_Video = require('../assets/mock-video/SampleVideo_720x480_1mb.mp4');
-
-    getRandomVideo(): Promise<VideoSource> {
-        return Promise.resolve(this.fake_Video);
-    }
-}
 
 @injectable()
-export class RandomVideoService implements IRandomVideoService {
+export class FakeRandomVideoService implements IRandomVideoService {
     getRandomVideo(): Promise<VideoSource> {
         const source = { uri: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4' };
 
         return Promise.resolve(source);
     }
+}
+
+@injectable()
+export class ApiRandomVideoService implements IRandomVideoService{
+    getRandomVideo(): Promise<VideoSource> {
+        throw new Error('Method not implemented.');
+    }
+
 }
