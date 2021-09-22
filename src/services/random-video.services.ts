@@ -21,3 +21,11 @@ export class FakeRandomVideoService implements IRandomVideoService {
         return Promise.resolve(source);
     }
 }
+
+@injectable()
+export class ApiRandomVideoService implements IRandomVideoService{
+    getRandomVideo(): Promise<VideoSource> {
+        throw new Error('Method not implemented.');
+    }
+
+}
