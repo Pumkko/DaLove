@@ -1,7 +1,6 @@
 import { Container, interfaces } from 'inversify';
 import { AuthStoreService, FakeAuthStoreService } from '../services/auth0.store.service';
 import { RandomMemoryStoreService, MemoryStoreServiceFromHttpSource } from '../services/random-memory.store.service';
-
 import { AppContainerTypes } from './app-container-types';
 
 
