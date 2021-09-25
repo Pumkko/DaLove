@@ -23,7 +23,9 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
         AppContainerTypes.AuthService
     );
 
-    const randomVideoService: RandomMemoryStoreService = useInjection(AppContainerTypes.RandomMemoryService);
+    const randomVideoService: RandomMemoryStoreService = useInjection(
+        AppContainerTypes.RandomMemoryService
+    );
 
     return (
         <ImageBackground
@@ -37,7 +39,9 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
                     style={MainViewStyle.loveButton}
                     onPress={() => {
                         randomVideoService.getRandomMemory();
-                        navigation.navigate('MemoryVideo', {randomVideoStoreService: randomVideoService});
+                        navigation.navigate('MemoryVideo', {
+                            randomVideoStoreService: randomVideoService,
+                        });
                     }}
                 >
                     <Text style={MainViewStyle.loveButtonText}>I need some love</Text>

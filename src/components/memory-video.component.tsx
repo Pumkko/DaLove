@@ -12,31 +12,33 @@ type ProfileScreenNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-    navigation: ProfileScreenNavigationProp;
-    route: RouteParams<MemoryVideoComponentParams>
+  navigation: ProfileScreenNavigationProp;
+  route: RouteParams<MemoryVideoComponentParams>;
 };
 
-export const MemoryVideoComponent: React.FC<Props> = observer(({ route, navigation }: Props) => {
-    const width = Dimensions.get('screen').width;
-    const height = Dimensions.get('screen').height;
+export const MemoryVideoComponent: React.FC<Props> = observer(
+    ({ route, navigation }: Props) => {
+        const width = Dimensions.get('screen').width;
+        const height = Dimensions.get('screen').height;
 
-    return (
-        <View style={{ flex: 1, backgroundColor: 'black' }}>
-            <Video
-                source={route.params.randomVideoStoreService.source}
-                resizeMode={'contain'}
-                style={{
-                    aspectRatio: width / height,
-                    width: '100%',
-                }}
-                controls={true}
-                autoplay={true}
-                onEnd={() => {
-                    navigation.goBack();
-                }}
-            />
-        </View>
-    );
-});
+        return (
+            <View style={{ flex: 1, backgroundColor: 'black' }}>
+                <Video
+                    source={route.params.randomVideoStoreService.source}
+                    resizeMode={'contain'}
+                    style={{
+                        aspectRatio: width / height,
+                        width: '100%',
+                    }}
+                    controls={true}
+                    autoplay={true}
+                    onEnd={() => {
+                        navigation.goBack();
+                    }}
+                />
+            </View>
+        );
+    }
+);
 
 export default MemoryVideoComponent;
