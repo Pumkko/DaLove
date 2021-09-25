@@ -5,6 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/navigation-types';
 import { observer } from 'mobx-react';
 import { MemoryVideoComponentParams } from '../navigation/memory-video-component.params';
+import { RouteParams } from '../navigation/route.params';
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'MemoryVideo'
@@ -12,9 +13,7 @@ type ProfileScreenNavigationProp = StackNavigationProp<
 
 type Props = {
     navigation: ProfileScreenNavigationProp;
-    route: {
-        params: MemoryVideoComponentParams
-    };
+    route: RouteParams<MemoryVideoComponentParams>
 };
 
 export const MemoryVideoComponent: React.FC<Props> = observer(({ route, navigation }: Props) => {
