@@ -1,5 +1,5 @@
 const AppContainerTypes = {
-    IAuthService: Symbol.for('IAuthService'),
+    AuthService: Symbol.for('AuthService'),
     IRandomVideoService: Symbol.for('IRandomVideoService')
 };
 

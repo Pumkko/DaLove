@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import Video from 'react-native-video';
-import { IRandomVideoService, VideoSource } from '../services/random-video.services';
+import {
+    IRandomVideoService,
+    VideoSource,
+} from '../services/random-video.services';
 import { Dimensions, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/navigation-types';
@@ -16,30 +19,24 @@ type Props = {
   navigation: ProfileScreenNavigationProp;
 };
 
-
-export const Lovideo: React.FC<Props> = ({navigation}: Props) => { 
+export const Lovideo: React.FC<Props> = ({ navigation }: Props) => {
     const width = Dimensions.get('screen').width;
     const height = Dimensions.get('screen').height;
 
-    const [videoSource, setVideoSource] = useState<VideoSource | null>(null);
-
-    const randomVideoService = useInjection<IRandomVideoService>(AppContainerTypes.IRandomVideoService);
+    const randomVideoService = useInjection<IRandomVideoService>(
+        AppContainerTypes.IRandomVideoService
+    );
 
     useEffect(() => {
-        randomVideoService
-            .getRandomVideo()
-            .then((url) => {
-                setVideoSource(url);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        randomVideoService.getRandomVideo();
     });
 
     return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
             <Video
-                source={videoSource}
+                source={{
+                    uri: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4',
+                }}
                 resizeMode={'contain'}
                 style={{
                     aspectRatio: width / height,

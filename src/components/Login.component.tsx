@@ -4,25 +4,24 @@ import React, { useState } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { AppContainerTypes } from '../inversify/app-container-types';
 import MainViewStyle from '../MainView.style';
-import { IAuthService } from '../services/auth0.service';
-
-type Props = {
-    hasAccessTokenCallback: (accessToken: string) => void;
-};
+import { AuthService } from '../services/auth0.service';
 
 
-export const LoginComponent: React.FC<Props> = (props) => {
+
+
+export const LoginComponent: React.FC = () => {
 
     const [hasAccessToken, setHasAccessToken] = useState(false);
 
-    const auth0 = useInjection<IAuthService>(AppContainerTypes.IAuthService);
+    const auth0 = useInjection<AuthService>(AppContainerTypes.AuthService);
 
     if(!hasAccessToken)
     {
         return (
             <TouchableOpacity style={MainViewStyle.loginButton} onPress={async () => {
-                const token = await auth0.login();
-                props.hasAccessTokenCallback(token);
+                auth0.login();
+
+                // hardcoded at the moment, we'll later use the state from mobx
                 setHasAccessToken(true);
             }}>
                 <Text style={MainViewStyle.loginButtonText}>Login</Text>
@@ -32,8 +31,9 @@ export const LoginComponent: React.FC<Props> = (props) => {
     else {
         return (
             <TouchableOpacity style={MainViewStyle.loginButton} onPress={async () => {
-                await auth0.logout();
-                props.hasAccessTokenCallback('');
+                auth0.logout();
+
+                // hardcoded at the moment, we'll later use the state from mobx
                 setHasAccessToken(false);
             }}>
                 <Text style={MainViewStyle.loginButtonText}>Log out</Text>

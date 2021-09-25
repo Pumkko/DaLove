@@ -21,18 +21,13 @@ type Props = {
 
 
 export const MainView: React.FC<Props> = ({ navigation }: Props) => {
-
-    const [,setAccessToken] = useState<string | undefined>();
-
     return (
         <ImageBackground
             source={require('./assets/images/Lake.jpg')}
             style={MainViewStyle.background}
         >
             <View style={MainViewStyle.container}>
-                <LoginComponent hasAccessTokenCallback={(token) => {
-                    setAccessToken(token);
-                }}></LoginComponent>
+                <LoginComponent></LoginComponent>
    
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}

@@ -1,42 +1,56 @@
 import { injectable } from 'inversify';
+import { action, makeObservable, observable } from 'mobx';
 import Auth0 from 'react-native-auth0';
 import { AuthConfiguration } from '../configuration/auth-configuration.conf';
 
+@injectable()
+export abstract class AuthService {
 
+    token = '';
 
-export interface IAuthService {
-    login(): Promise<string>;
-    logout(): Promise<void>;
+    constructor() {
+        makeObservable(this, {
+            token: observable,
+            login: action,
+            logout: action
+        });
+    }
+
+    abstract login(): void;
+    abstract logout(): void;
 }
 
 
 @injectable()
-export class FakeAuthService implements IAuthService {
-    login(): Promise<string> {
-        return Promise.resolve('fake token');
+export class FakeAuthService extends AuthService {
+    login(): void {
+        this.token = 'fake token';
     }
-    logout(): Promise<void> {
-        return Promise.resolve();
+    logout(): void {
+        this.token = '';
     }
 
 }
 
 @injectable()
-export class Auth0Service implements IAuthService{
+export class Auth0Service extends AuthService {
 
     private readonly auth0 = new Auth0(AuthConfiguration);
 
-    async login(): Promise<string> {
-        const credentials = await this.auth0.webAuth.authorize({
+    login(): void {
+        this.auth0.webAuth.authorize({
             audience: AuthConfiguration.audience,
             scope: 'openid profile email, read:memories'
+        }).then(credentials => {
+            this.token = credentials.accessToken;
         });
 
-        return credentials.accessToken;
     }
 
-    async logout(): Promise<void> {
-        await this.auth0.webAuth.clearSession();
+    logout(): void {
+        this.auth0.webAuth.clearSession().then(() => {
+            this.token = '';
+        });
     }
 
 }
