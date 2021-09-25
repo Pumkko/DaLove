@@ -1,42 +1,30 @@
-import React, { useEffect, useState } from 'react';
-
+import React from 'react';
 import Video from 'react-native-video';
-import {
-    IRandomVideoService,
-    VideoSource,
-} from '../services/random-video.services';
 import { Dimensions, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/navigation-types';
-import { AppContainerTypes } from '../inversify/app-container-types';
-import { useInjection } from 'inversify-react';
+import { observer } from 'mobx-react';
+import { MemoryVideoComponentParams } from '../navigation/memory-video-component.params';
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Video'
+  'MemoryVideo'
 >;
 
 type Props = {
-  navigation: ProfileScreenNavigationProp;
+    navigation: ProfileScreenNavigationProp;
+    route: {
+        params: MemoryVideoComponentParams
+    };
 };
 
-export const Lovideo: React.FC<Props> = ({ navigation }: Props) => {
+export const MemoryVideoComponent: React.FC<Props> = observer(({ route, navigation }: Props) => {
     const width = Dimensions.get('screen').width;
     const height = Dimensions.get('screen').height;
-
-    const randomVideoService = useInjection<IRandomVideoService>(
-        AppContainerTypes.IRandomVideoService
-    );
-
-    useEffect(() => {
-        randomVideoService.getRandomVideo();
-    });
 
     return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
             <Video
-                source={{
-                    uri: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4',
-                }}
+                source={route.params.randomVideoStoreService.source}
                 resizeMode={'contain'}
                 style={{
                     aspectRatio: width / height,
@@ -45,11 +33,11 @@ export const Lovideo: React.FC<Props> = ({ navigation }: Props) => {
                 controls={true}
                 autoplay={true}
                 onEnd={() => {
-                    navigation.navigate('MainView');
+                    navigation.goBack();
                 }}
             />
         </View>
     );
-};
+});
 
-export default Lovideo;
+export default MemoryVideoComponent;

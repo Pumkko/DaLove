@@ -1,13 +1,13 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useInjection } from 'inversify-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, ImageBackground, TouchableOpacity, View } from 'react-native';
-import { LoginComponent } from './components/Login.component';
+import { LoginComponent } from './components/login.component';
 import { AppContainerTypes } from './inversify/app-container-types';
-import AppContainer from './inversify/container';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
 import { AuthStoreService } from './services/auth0.store.service';
+import { RandomMemoryStoreService } from './services/random-memory.store.service';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -23,6 +23,8 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
         AppContainerTypes.AuthService
     );
 
+    const randomVideoService: RandomMemoryStoreService = useInjection(AppContainerTypes.RandomMemoryService);
+
     return (
         <ImageBackground
             source={require('./assets/images/Lake.jpg')}
@@ -34,7 +36,8 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
                     onPress={() => {
-                        navigation.navigate('Video');
+                        randomVideoService.getRandomMemory();
+                        navigation.navigate('MemoryVideo', {randomVideoStoreService: randomVideoService});
                     }}
                 >
                     <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
