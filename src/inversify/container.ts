@@ -8,7 +8,7 @@ type interfaceContainerMethod = () => interfaces.Container;
 
 const AppContainer: interfaceContainerMethod = () => {
     const container = new Container();
-    container.bind<AuthStoreService>(AppContainerTypes.AuthService).to(FakeAuthStoreService).inSingletonScope();
+    container.bind<AuthStoreService>(AppContainerTypes.AuthService).to(FakeAuthStoreService);
     container.bind<RandomMemoryStoreService>(AppContainerTypes.RandomMemoryService).to(MemoryStoreServiceFromHttpSource);
     return container;
 };
