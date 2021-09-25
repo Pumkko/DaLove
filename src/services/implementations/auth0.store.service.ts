@@ -12,16 +12,16 @@ export class Auth0StoreService extends AuthStoreService {
     login(): void {
         this.auth0.webAuth.authorize({
             audience: AuthConfiguration.audience,
-            scope: 'openid profile email, read:memories'
+            scope: 'openid profile email read:memories'
         }).then(credentials => {
-            this.token = credentials.accessToken;
+            this.setToken(credentials.accessToken);
         });
 
     }
 
     logout(): void {
         this.auth0.webAuth.clearSession().then(() => {
-            this.token = '';
+            this.setToken('');
         });
     }
 

@@ -3,8 +3,7 @@ import { RandomMemoryStoreService } from '../../abstracts/abstract-random-memory
 
 @injectable()
 export class MemoryStoreServiceFromHttpSource extends RandomMemoryStoreService {
-
     getRandomMemory(): void {
-        this.source.uri = 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4';
+        this.setRandomMemorySource('https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_640_3MG.mp4');
     }
 }

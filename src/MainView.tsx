@@ -37,7 +37,7 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
 
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
-                    onPress={() => {
+                    onPress={() => { 
                         randomVideoService.getRandomMemory();
                         navigation.navigate('MemoryVideo', {
                             randomVideoStoreService: randomVideoService,

@@ -1,6 +1,6 @@
 import React from 'react';
 import Video from 'react-native-video';
-import { Dimensions, View } from 'react-native';
+import { ActivityIndicator, Dimensions, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/navigation-types';
 import { observer } from 'mobx-react';
@@ -21,23 +21,34 @@ export const MemoryVideoComponent: React.FC<Props> = observer(
         const width = Dimensions.get('screen').width;
         const height = Dimensions.get('screen').height;
 
-        return (
-            <View style={{ flex: 1, backgroundColor: 'black' }}>
-                <Video
-                    source={route.params.randomVideoStoreService.source}
-                    resizeMode={'contain'}
-                    style={{
-                        aspectRatio: width / height,
-                        width: '100%',
-                    }}
-                    controls={true}
-                    autoplay={true}
-                    onEnd={() => {
-                        navigation.goBack();
-                    }}
-                />
-            </View>
-        );
+        
+        if(route.params.randomVideoStoreService.hasValidSource){
+            return (
+                <View style={{ flex: 1, backgroundColor: 'black' }}>
+                    <Video
+                        source={route.params.randomVideoStoreService.source}
+                        resizeMode={'contain'}
+                        style={{
+                            aspectRatio: width / height,
+                            width: '100%',
+                        }}
+                        controls={true}
+                        autoplay={true}
+                        onEnd={() => {
+                            navigation.goBack();
+                        }}
+                    />
+                </View>
+            );
+        }
+        else {
+            return (
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <ActivityIndicator size="large" />
+                </View>
+            );
+
+        }
     }
 );
 

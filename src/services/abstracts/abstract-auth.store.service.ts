@@ -10,8 +10,7 @@ export abstract class AuthStoreService {
         makeObservable(this, {
             token: observable,
             isLoginSuccessfull: computed,
-            login: action,
-            logout: action
+            setToken: action
         });
     }
 
@@ -22,5 +21,9 @@ export abstract class AuthStoreService {
 
     abstract login(): void;
     abstract logout(): void;
+
+    setToken(token: string): void {
+        this.token = token;
+    }
 }
 
