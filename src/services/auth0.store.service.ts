@@ -1,19 +1,25 @@
 import { injectable } from 'inversify';
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import Auth0 from 'react-native-auth0';
 import { AuthConfiguration } from '../configuration/auth-configuration.conf';
 
 @injectable()
-export abstract class AuthService {
+export abstract class AuthStoreService {
 
     token = '';
 
     constructor() {
         makeObservable(this, {
             token: observable,
+            isLoginSuccessfull: computed,
             login: action,
             logout: action
         });
+    }
+
+    get isLoginSuccessfull(): boolean {
+        // We just want to know if token is truthy
+        return this.token as unknown as boolean;
     }
 
     abstract login(): void;
@@ -22,7 +28,7 @@ export abstract class AuthService {
 
 
 @injectable()
-export class FakeAuthService extends AuthService {
+export class FakeAuthStoreService extends AuthStoreService {
     login(): void {
         this.token = 'fake token';
     }
@@ -33,7 +39,7 @@ export class FakeAuthService extends AuthService {
 }
 
 @injectable()
-export class Auth0Service extends AuthService {
+export class Auth0StoreService extends AuthStoreService {
 
     private readonly auth0 = new Auth0(AuthConfiguration);
 
