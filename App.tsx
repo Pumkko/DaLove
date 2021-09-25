@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import Lovideo from './src/components/Lovideo.component';
+import MemoryVideoComponent from './src/components/memory-video.component';
 import { MainView } from './src/MainView';
 
 
@@ -28,8 +28,8 @@ const App: React.FC = () => {
                         component={MainView} />
 
                     <Stack.Screen
-                        name='Video'
-                        component={Lovideo} />
+                        name='MemoryVideo'
+                        component={MemoryVideoComponent}/>
 
                 </Stack.Navigator>
 

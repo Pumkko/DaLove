@@ -1,14 +1,13 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import {
-    Text,
-    ImageBackground,
-    TouchableOpacity,
-    View
-} from 'react-native';
-import { LoginComponent } from './components/Login.component';
+import { useInjection } from 'inversify-react';
+import React from 'react';
+import { Text, ImageBackground, TouchableOpacity, View } from 'react-native';
+import { LoginComponent } from './components/login.component';
+import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
+import { AuthStoreService } from './services/auth0.store.service';
+import { RandomMemoryStoreService } from './services/random-memory.store.service';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -19,10 +18,14 @@ type Props = {
   navigation: ProfileScreenNavigationProp;
 };
 
-
 export const MainView: React.FC<Props> = ({ navigation }: Props) => {
+    const authStoreService: AuthStoreService = useInjection(
+        AppContainerTypes.AuthService
+    );
 
-    const [,setAccessToken] = useState<string | undefined>();
+    const randomVideoService: RandomMemoryStoreService = useInjection(
+        AppContainerTypes.RandomMemoryService
+    );
 
     return (
         <ImageBackground
@@ -30,14 +33,15 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
             style={MainViewStyle.background}
         >
             <View style={MainViewStyle.container}>
-                <LoginComponent hasAccessTokenCallback={(token) => {
-                    setAccessToken(token);
-                }}></LoginComponent>
-   
+                <LoginComponent authStoreService={authStoreService}></LoginComponent>
+
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
                     onPress={() => {
-                        navigation.navigate('Video');
+                        randomVideoService.getRandomMemory();
+                        navigation.navigate('MemoryVideo', {
+                            randomVideoStoreService: randomVideoService,
+                        });
                     }}
                 >
                     <Text style={MainViewStyle.loveButtonText}>I need some love</Text>

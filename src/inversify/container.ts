@@ -1,6 +1,6 @@
 import { Container, interfaces } from 'inversify';
-import { FakeAuthService, IAuthService } from '../services/auth0.service';
-import { FakeRandomVideoService, IRandomVideoService } from '../services/random-video.services';
+import { AuthStoreService, FakeAuthStoreService } from '../services/auth0.store.service';
+import { RandomMemoryStoreService, MemoryStoreServiceFromHttpSource } from '../services/random-memory.store.service';
 import { AppContainerTypes } from './app-container-types';
 
 
@@ -8,8 +8,8 @@ type interfaceContainerMethod = () => interfaces.Container;
 
 const AppContainer: interfaceContainerMethod = () => {
     const container = new Container();
-    container.bind<IAuthService>(AppContainerTypes.IAuthService).to(FakeAuthService);
-    container.bind<IRandomVideoService>(AppContainerTypes.IRandomVideoService).to(FakeRandomVideoService);
+    container.bind<AuthStoreService>(AppContainerTypes.AuthService).to(FakeAuthStoreService);
+    container.bind<RandomMemoryStoreService>(AppContainerTypes.RandomMemoryService).to(MemoryStoreServiceFromHttpSource);
     return container;
 };
 

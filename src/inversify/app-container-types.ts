@@ -1,6 +1,6 @@
 const AppContainerTypes = {
-    IAuthService: Symbol.for('IAuthService'),
-    IRandomVideoService: Symbol.for('IRandomVideoService')
+    AuthService: Symbol.for('AuthService'),
+    RandomMemoryService: Symbol.for('RandomMemoryService')
 };
 
 export { AppContainerTypes };
