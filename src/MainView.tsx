@@ -6,8 +6,8 @@ import { LoginComponent } from './components/login.component';
 import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
-import { AuthStoreService } from './services/auth0.store.service';
-import { RandomMemoryStoreService } from './services/random-memory.store.service';
+import { AuthStoreService } from './services/abstracts/abstract-auth.store.service';
+import { RandomMemoryStoreService } from './services/abstracts/abstract-random-memory.store.service';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -37,7 +37,7 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
 
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
-                    onPress={() => {
+                    onPress={() => { 
                         randomVideoService.getRandomMemory();
                         navigation.navigate('MemoryVideo', {
                             randomVideoStoreService: randomVideoService,
