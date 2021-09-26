@@ -4,7 +4,7 @@ import { AuthStoreService } from '../../abstracts/abstract-auth.store.service';
 @injectable()
 export class FakeAuthStoreService extends AuthStoreService {
     login(): void {
-        this.token = 'fake token';
+        this.setToken('fake token');
     }
     logout(): void {
         this.token = '';

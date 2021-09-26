@@ -1,5 +1,5 @@
-import { injectable } from 'inversify';
-import { useInjection } from 'inversify-react';
+import { inject, injectable } from 'inversify';
+import { autorun } from 'mobx';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import { BackendApi } from '../../configuration/backend-api.conf';
@@ -12,17 +12,22 @@ import { RandomMemoryStoreService } from '../abstracts/abstract-random-memory.st
 @injectable()
 export class ApiMemoryStoreService extends RandomMemoryStoreService {
 
+    private token = '';
 
-    private authStoreService: AuthStoreService = useInjection(
-        AppContainerTypes.AuthService
-    );
+    constructor(@inject(AppContainerTypes.AuthService) authStoreService: AuthStoreService) {
+        super();
+
+        autorun(() => {
+            this.token = authStoreService.token;
+        });
+    }
 
     getRandomMemory(): void {
         const endpoint = 'RandomMemories';
 
         const fullUrl = new URL(endpoint, BackendApi.rootUrl).href;
 
-        const bearerToken = `Bearer ${this.authStoreService.token}`;
+        const bearerToken = `Bearer ${this.token}`;
 
         fetch(fullUrl, {
             method: 'GET',
