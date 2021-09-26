@@ -7,7 +7,7 @@ export abstract class AuthStoreService {
     token = '';
 
     constructor() {
-        makeObservable(this, {
+        makeObservable<AuthStoreService, 'setToken'>(this, {
             token: observable,
             isLoginSuccessfull: computed,
             setToken: action
@@ -22,7 +22,7 @@ export abstract class AuthStoreService {
     abstract login(): void;
     abstract logout(): void;
 
-    setToken(token: string): void {
+    protected setToken(token: string): void {
         this.token = token;
     }
 }

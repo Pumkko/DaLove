@@ -7,7 +7,7 @@ export class FakeAuthStoreService extends AuthStoreService {
         this.setToken('fake token');
     }
     logout(): void {
-        this.token = '';
+        this.setToken('');
     }
 
 }

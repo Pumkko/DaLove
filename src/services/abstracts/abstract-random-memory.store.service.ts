@@ -12,7 +12,7 @@ export abstract class RandomMemoryStoreService {
     };
 
     constructor() {
-        makeObservable(this, {
+        makeObservable<RandomMemoryStoreService, 'setRandomMemorySource'>(this, {
             source: observable,
             hasValidSource: computed,
             setRandomMemorySource: action
@@ -23,9 +23,10 @@ export abstract class RandomMemoryStoreService {
         return this.source.uri as unknown as boolean;
     }
     
-    setRandomMemorySource(uri: string): void {
+    abstract getRandomMemory(): void
+    
+    protected setRandomMemorySource(uri: string): void {
         this.source.uri = uri;
     }
 
-    abstract getRandomMemory(): void
 }
