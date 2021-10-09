@@ -10,6 +10,7 @@ import { Provider } from 'inversify-react';
 import AppContainer from './src/inversify/container';
 
 import 'reflect-metadata';
+import { UserProfileCreationComponent } from './src/components/user-profile-creation.component';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -30,6 +31,10 @@ const App: React.FC = () => {
                     <Stack.Screen
                         name='MemoryVideo'
                         component={MemoryVideoComponent}/>
+
+                    <Stack.Screen
+                        name='UserProfileCreation'
+                        component={UserProfileCreationComponent}/>
 
                 </Stack.Navigator>
 

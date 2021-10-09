@@ -30,7 +30,7 @@ export class MemoryStoreService {
             });
 
         }catch{
-            // Do something later
+            // TODO: Do something later
             runInAction(() => {
                 this.memorySource = {uri: ''};
             });

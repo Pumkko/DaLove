@@ -1,22 +1,34 @@
-import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, ToastAndroid } from 'react-native';
 import MainViewStyle from '../MainView.style';
+import { MainViewNavigationProp } from '../navigation/navigation-types';
 import { LoginStoreService } from '../services/stores/login.store.service';
 
+
 type Props = {
-  loginStoreService: LoginStoreService;
+    navigation: MainViewNavigationProp;  
+    loginStoreService: LoginStoreService;
 };
 
 export const LoginComponent: React.FC<Props> = observer(
-    ({ loginStoreService }: Props) => {
+    ({ navigation, loginStoreService }: Props) => {
+
         if (!loginStoreService.isLoginSuccessfull) {
             return (
                 <TouchableOpacity
                     style={MainViewStyle.loginButton}
                     onPress={async () => {
-                        await loginStoreService.login();
+                        try {
+                            const userProfile = await loginStoreService.login();
+                            if(userProfile.uniqueUserName === '') {
+                                navigation.navigate('UserProfileCreation');
+                            }
+
+                        } catch {
+                            // TODO:  Will rework later for a more crossplatform solutin
+                            ToastAndroid.show('Failed to login', ToastAndroid.LONG);
+                        }
                     }}
                 >
                     <Text style={MainViewStyle.loginButtonText}>Login</Text>
