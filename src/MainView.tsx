@@ -38,10 +38,7 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
                 <TouchableOpacity
                     style={MainViewStyle.loveButton}
                     onPress={() => {
-                        randomVideoService.getRandomMemory();
-                        navigation.navigate('MemoryVideo', {
-                            memoryStoreService: randomVideoService,
-                        });
+                        navigation.navigate('MemoryVideo');
                     }}
                 >
                     <Text style={MainViewStyle.loveButtonText}>I need some love</Text>

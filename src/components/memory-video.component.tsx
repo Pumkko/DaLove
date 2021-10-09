@@ -1,26 +1,33 @@
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 import Video from 'react-native-video';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 import { MemoryVideoViewNavigationProp } from '../navigation/navigation-types';
 import { observer } from 'mobx-react';
-import { MemoryVideoComponentParams } from '../navigation/memory-video-component.params';
-import { RouteParams } from '../navigation/route.params';
+import { useInjection } from 'inversify-react';
+import { MemoryStoreService } from '../services/stores/memory.store.service';
+import { AppContainerTypes } from '../inversify/app-container-types';
 
 type Props = {
   navigation: MemoryVideoViewNavigationProp;
-  route: RouteParams<MemoryVideoComponentParams>;
 };
 
 export const MemoryVideoComponent: React.FC<Props> = observer(
-    ({ route, navigation }: Props) => {
+    ({ navigation }: Props) => {
+
+        const memoryStoreService = useInjection<MemoryStoreService>(AppContainerTypes.MemoryStoreService);
+
         const width = Dimensions.get('screen').width;
         const height = Dimensions.get('screen').height;
 
-        if (route.params.memoryStoreService.hasValidMemorySource) {
+        useEffect(() => {
+            memoryStoreService.getRandomMemory();         
+        }, []);
+
+        if (memoryStoreService.hasValidMemorySource) {
             return (
                 <View style={{ flex: 1, backgroundColor: 'black' }}>
                     <Video
-                        source={route.params.memoryStoreService.memorySource}
+                        source={memoryStoreService.memorySource}
                         resizeMode={'contain'}
                         style={{
                             aspectRatio: width / height,
