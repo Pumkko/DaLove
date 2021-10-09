@@ -1,6 +1,5 @@
 import { injectable } from 'inversify';
-import { IRandomMemoryAccessService, UriVideoSource } from '../../abstracts/random-memory-access-service.interface';
-
+import { IRandomMemoryAccessService, UriVideoSource } from '../../interfaces/random-memory-access-service.interface';
 
 @injectable()
 export class FakeMemoryVideoService implements IRandomMemoryAccessService {

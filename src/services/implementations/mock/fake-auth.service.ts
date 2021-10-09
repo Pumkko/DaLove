@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { IAuthService } from '../../abstracts/auth-service.interface';
+import { IAuthService } from '../../interfaces/auth-service.interface';
 
 
 @injectable()

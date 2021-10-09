@@ -3,7 +3,7 @@ import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import { BackendApi } from '../../configuration/backend-api.conf';
 import { AppContainerTypes } from '../../inversify/app-container-types';
-import { IRandomMemoryAccessService, UriVideoSource } from '../abstracts/random-memory-access-service.interface';
+import { IRandomMemoryAccessService, UriVideoSource } from '../interfaces/random-memory-access-service.interface';
 import { LoginStoreService } from '../stores/login.store.service';
 
 

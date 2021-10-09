@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import Auth0 from 'react-native-auth0';
 import { AuthConfiguration } from '../../configuration/auth-configuration.conf';
-import { IAuthService } from '../abstracts/auth-service.interface';
+import { IAuthService } from '../interfaces/auth-service.interface';
 
 
 

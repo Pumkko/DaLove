@@ -1,11 +1,12 @@
-import { Container, interfaces } from 'inversify';
-import { IAuthService } from '../services/abstracts/auth-service.interface';
-import { IRandomMemoryAccessService } from '../services/abstracts/random-memory-access-service.interface';
+import { interfaces, Container } from 'inversify';
 import { FakeAuthService } from '../services/implementations/mock/fake-auth.service';
 import { FakeMemoryVideoService } from '../services/implementations/mock/fake-memory-video.service';
+import { IAuthService } from '../services/interfaces/auth-service.interface';
+import { IRandomMemoryAccessService } from '../services/interfaces/random-memory-access-service.interface';
 import { LoginStoreService } from '../services/stores/login.store.service';
 import { MemoryStoreService } from '../services/stores/memory.store.service';
 import { AppContainerTypes } from './app-container-types';
+
 
 
 type interfaceContainerMethod = () => interfaces.Container;

@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify';
-import { action, computed, flow, makeObservable, observable, runInAction } from 'mobx';
+import { makeObservable, observable, computed, runInAction } from 'mobx';
 import { AppContainerTypes } from '../../inversify/app-container-types';
-import { IAuthService } from '../abstracts/auth-service.interface';
+import { IAuthService } from '../interfaces/auth-service.interface';
+
 
 @injectable()
 export class LoginStoreService {

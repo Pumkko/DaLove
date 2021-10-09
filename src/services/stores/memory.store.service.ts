@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { computed, flow, makeObservable, observable, runInAction } from 'mobx';
 import { AppContainerTypes } from '../../inversify/app-container-types';
-import { IRandomMemoryAccessService, UriVideoSource } from '../abstracts/random-memory-access-service.interface';
+import { IRandomMemoryAccessService, UriVideoSource } from '../interfaces/random-memory-access-service.interface';
 
 @injectable()
 export class MemoryStoreService {

@@ -6,9 +6,9 @@ import { LoginComponent } from './components/login.component';
 import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
-import { IRandomMemoryAccessService } from './services/abstracts/random-memory-access-service.interface';
 import { LoginStoreService } from './services/stores/login.store.service';
 import { MemoryStoreService } from './services/stores/memory.store.service';
+
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
