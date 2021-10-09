@@ -34,7 +34,11 @@ const App: React.FC = () => {
 
                     <Stack.Screen
                         name='UserProfileCreation'
-                        component={UserProfileCreationComponent}/>
+                        component={UserProfileCreationComponent}
+                        options={{
+                            headerShown: true,
+                            title: 'user profile creation'
+                        }}/>
 
                 </Stack.Navigator>
 

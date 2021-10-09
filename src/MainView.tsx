@@ -1,4 +1,3 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useInjection } from 'inversify-react';
 import React from 'react';
 import { Text, ImageBackground, TouchableOpacity, View } from 'react-native';
@@ -7,7 +6,6 @@ import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
 import { MainViewNavigationProp } from './navigation/navigation-types';
 import { LoginStoreService } from './services/stores/login.store.service';
-import { MemoryStoreService } from './services/stores/memory.store.service';
 
 
 
