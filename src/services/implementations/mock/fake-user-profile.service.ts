@@ -5,11 +5,21 @@ import { IUserProfileService } from '../../interfaces/user-profile-service.inter
 
 @injectable()
 export class FakeUserProfileService implements IUserProfileService{
+
+
+    private _currentUserProfile = {
+        displayName: '',
+        uniqueUserName: ''
+    };
+
     getConnectedUserProfile(): Promise<UserProfile> {
-        return Promise.resolve({
-            displayName: '',
-            uniqueUserName: ''
-        });
+        return Promise.resolve(this._currentUserProfile);
+    }
+
+
+    createUserProfile(newUserProfile: UserProfile): Promise<void> {
+        this._currentUserProfile = newUserProfile;
+        return Promise.resolve();
     }
     
 }

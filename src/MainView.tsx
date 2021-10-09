@@ -20,10 +20,6 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
         AppContainerTypes.LoginStoreService
     );
 
-    const randomVideoService = useInjection<MemoryStoreService>(
-        AppContainerTypes.MemoryStoreService
-    );
-
     return (
         <ImageBackground
             source={require('./assets/images/Lake.jpg')}

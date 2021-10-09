@@ -35,7 +35,7 @@ export class LoginStoreService {
     }
 
     async login(): Promise<UserProfile> {
-        const token = await this.authService.login();
+        this._token = await this.authService.login();
         const userProfile = await this.userProfileService.getConnectedUserProfile();
         runInAction(() => {
             this.userProfile = userProfile;
@@ -52,6 +52,13 @@ export class LoginStoreService {
             };
         });
         await this.authService.logout();
+    }
+
+    async createUserProfile(newUserProfile: UserProfile): Promise<void> {
+        await this.userProfileService.createUserProfile(newUserProfile);
+        runInAction(() => {
+            this.userProfile = newUserProfile;
+        });
     }
 
 }
