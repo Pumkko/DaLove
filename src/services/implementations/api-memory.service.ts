@@ -9,7 +9,7 @@ import { LoginStoreService } from '../stores/login.store.service';
 
 
 @injectable()
-export class ApiMemoryStoreService implements IRandomMemoryAccessService {
+export class ApiMemoryService implements IRandomMemoryAccessService {
 
     @inject(AppContainerTypes.LoginStoreService) private readonly authService!: LoginStoreService
 
