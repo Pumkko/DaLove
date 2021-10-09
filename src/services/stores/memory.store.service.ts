@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { computed, flow, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, flow, makeObservable, observable, runInAction } from 'mobx';
 import { AppContainerTypes } from '../../inversify/app-container-types';
 import { IRandomMemoryAccessService, UriVideoSource } from '../interfaces/random-memory-access-service.interface';
 
@@ -14,7 +14,7 @@ export class MemoryStoreService {
         makeObservable<MemoryStoreService>(this, {
             memorySource: observable,
             hasValidMemorySource: computed,
-            getRandomMemory: flow
+            getRandomMemory: action
         });
     }
 
@@ -23,18 +23,10 @@ export class MemoryStoreService {
     }
 
     async getRandomMemory(): Promise<void> {
-        try {
-            const source = await this.memoryServiceService.getRandomMemory();
-            runInAction(() => {
-                this.memorySource = source;
-            });
-
-        }catch{
-            // TODO: Do something later
-            runInAction(() => {
-                this.memorySource = {uri: ''};
-            });
-        }
+        const source = await this.memoryServiceService.getRandomMemory();
+        runInAction(() => {
+            this.memorySource = source;
+        });
     }
 
 }
