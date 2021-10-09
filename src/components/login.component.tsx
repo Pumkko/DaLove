@@ -1,21 +1,22 @@
+import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import MainViewStyle from '../MainView.style';
-import { AuthStoreService } from '../services/abstracts/abstract-auth.store.service';
+import { LoginStoreService } from '../services/stores/login.store.service';
 
 type Props = {
-  authStoreService: AuthStoreService;
+  loginStoreService: LoginStoreService;
 };
 
 export const LoginComponent: React.FC<Props> = observer(
-    ({ authStoreService }: Props) => {
-        if (!authStoreService.isLoginSuccessfull) {
+    ({ loginStoreService }: Props) => {
+        if (!loginStoreService.isLoginSuccessfull) {
             return (
                 <TouchableOpacity
                     style={MainViewStyle.loginButton}
                     onPress={async () => {
-                        authStoreService.login();
+                        await loginStoreService.login();
                     }}
                 >
                     <Text style={MainViewStyle.loginButtonText}>Login</Text>
@@ -26,7 +27,7 @@ export const LoginComponent: React.FC<Props> = observer(
                 <TouchableOpacity
                     style={MainViewStyle.loginButton}
                     onPress={async () => {
-                        authStoreService.logout();
+                        await loginStoreService.logout();
                     }}
                 >
                     <Text style={MainViewStyle.loginButtonText}>Log out</Text>

@@ -22,11 +22,11 @@ export const MemoryVideoComponent: React.FC<Props> = observer(
         const height = Dimensions.get('screen').height;
 
         
-        if(route.params.randomVideoStoreService.hasValidSource){
+        if(route.params.memoryStoreService.hasValidMemorySource){
             return (
                 <View style={{ flex: 1, backgroundColor: 'black' }}>
                     <Video
-                        source={route.params.randomVideoStoreService.source}
+                        source={route.params.memoryStoreService.memorySource}
                         resizeMode={'contain'}
                         style={{
                             aspectRatio: width / height,

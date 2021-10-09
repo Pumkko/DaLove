@@ -1,5 +1,5 @@
-import { RandomMemoryStoreService } from '../services/abstracts/abstract-random-memory.store.service';
+import { MemoryStoreService } from '../services/stores/memory.store.service';
 
 export interface MemoryVideoComponentParams {
-    randomVideoStoreService: RandomMemoryStoreService
+    memoryStoreService: MemoryStoreService
 }
