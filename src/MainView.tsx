@@ -1,7 +1,7 @@
 import { useInjection } from 'inversify-react';
 import React from 'react';
 import { Text, ImageBackground, TouchableOpacity, View } from 'react-native';
-import { LoginComponent } from './components/login.component';
+import { LoginComponent } from './views/components/login.component';
 import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
 import { MainViewNavigationProp } from './navigation/navigation-types';

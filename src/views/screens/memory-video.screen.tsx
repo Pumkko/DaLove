@@ -1,17 +1,17 @@
 import React, { memo, useEffect } from 'react';
 import Video from 'react-native-video';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
-import { MemoryVideoViewNavigationProp } from '../navigation/navigation-types';
 import { observer } from 'mobx-react';
 import { useInjection } from 'inversify-react';
-import { MemoryStoreService } from '../services/stores/memory.store.service';
-import { AppContainerTypes } from '../inversify/app-container-types';
+import { AppContainerTypes } from '../../inversify/app-container-types';
+import { MemoryVideoViewNavigationProp } from '../../navigation/navigation-types';
+import { MemoryStoreService } from '../../services/stores/memory.store.service';
 
 type Props = {
   navigation: MemoryVideoViewNavigationProp;
 };
 
-export const MemoryVideoComponent: React.FC<Props> = observer(
+export const MemoryVideoScreen: React.FC<Props> = observer(
     ({ navigation }: Props) => {
 
         const memoryStoreService = useInjection<MemoryStoreService>(AppContainerTypes.MemoryStoreService);
@@ -53,4 +53,4 @@ export const MemoryVideoComponent: React.FC<Props> = observer(
     }
 );
 
-export default MemoryVideoComponent;
+export default MemoryVideoScreen;

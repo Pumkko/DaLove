@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { TouchableOpacity, Text, ToastAndroid } from 'react-native';
-import MainViewStyle from '../MainView.style';
-import { MainViewNavigationProp } from '../navigation/navigation-types';
-import { LoginStoreService } from '../services/stores/login.store.service';
+import MainViewStyle from '../../MainView.style';
+import { MainViewNavigationProp } from '../../navigation/navigation-types';
+import { LoginStoreService } from '../../services/stores/login.store.service';
 
 
 type Props = {
