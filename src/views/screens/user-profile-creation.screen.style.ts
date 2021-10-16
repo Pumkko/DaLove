@@ -10,12 +10,10 @@ export const UserProfileCreationStyle = StyleSheet.create({
     },
 
     avatarStyle: {
-        width: 150,
-        height: 150,
+        width: 140,
+        height: 140,
         borderRadius: 90,
         overflow: 'hidden',
-        borderWidth: 2,
-        borderColor: 'black',
         alignSelf: 'center',
         marginBottom: 20
     },
