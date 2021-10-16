@@ -15,13 +15,14 @@ type interfaceContainerMethod = () => interfaces.Container;
 
 const AppContainer: interfaceContainerMethod = () => {
     const container = new Container();
+    
+    container.bind<LoginStoreService>(AppContainerTypes.LoginStoreService).to(LoginStoreService).inSingletonScope();
+    container.bind<MemoryStoreService>(AppContainerTypes.MemoryStoreService).to(MemoryStoreService).inSingletonScope();
+    
     container.bind<IAuthService>(AppContainerTypes.IAuthService).to(FakeAuthService);
     container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(FakeUserProfileService);
-    container.bind<LoginStoreService>(AppContainerTypes.LoginStoreService).to(LoginStoreService).inSingletonScope();
-
-
     container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(FakeMemoryVideoService);
-    container.bind<MemoryStoreService>(AppContainerTypes.MemoryStoreService).to(MemoryStoreService).inSingletonScope();
+
     return container;
 };
 
