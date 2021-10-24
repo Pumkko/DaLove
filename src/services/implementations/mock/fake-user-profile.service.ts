@@ -6,7 +6,6 @@ import { IUserProfileService } from '../../interfaces/user-profile-service.inter
 @injectable()
 export class FakeUserProfileService implements IUserProfileService{
 
-
     private _currentUserProfile = {
         displayName: '',
         uniqueUserName: ''
@@ -20,6 +19,10 @@ export class FakeUserProfileService implements IUserProfileService{
     createUserProfile(newUserProfile: UserProfile): Promise<UserProfile> {
         this._currentUserProfile = newUserProfile;
         return Promise.resolve(newUserProfile);
+    }
+
+    storeAvatar(): Promise<void> {
+        return Promise.resolve();
     }
     
 }

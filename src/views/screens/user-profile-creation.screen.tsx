@@ -22,8 +22,9 @@ class AvatarRequire {
     static path = require('../../assets/images/blank_avatar.png');
 }
 
-interface ImageUriSource {
-    uri: string
+export interface AvatarSource {
+    uri: string;
+    mimeType: string;
 }
 
 export const UserProfileCreationScreen: React.FC<Props> = ({
@@ -36,7 +37,7 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
 
     const [uniqueUserName, setUniqueUserName] = useState('');
     const [displayName, setDisplayName] = useState('');
-    const [imagePath, setImagePath] = useState<ImageUriSource>(AvatarRequire.path);
+    const [imagePath, setImagePath] = useState<AvatarSource>(AvatarRequire.path);
 
     return (
         <View style={UserProfileCreationStyle.container}>
@@ -50,8 +51,9 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
                         cropperCircleOverlay: true,
                         includeBase64: true
                     }).then((selectedImage) => {
-                        const newSource: ImageUriSource = {
-                            uri: selectedImage.path
+                        const newSource: AvatarSource = {
+                            uri: selectedImage.path,
+                            mimeType: selectedImage.mime
                         };
                         setImagePath(newSource);
                     });
@@ -91,6 +93,7 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
                             uniqueUserName,
                             displayName,
                         });
+                        await loginStoreService.storeAvatar(imagePath);
                         navigation.navigate('MainView');
                     }}
                 >

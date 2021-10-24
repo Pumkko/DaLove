@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { makeObservable, observable, computed, runInAction } from 'mobx';
 import { UserProfile } from '../../data/user-profile';
 import { AppContainerTypes } from '../../inversify/app-container-types';
+import { AvatarSource } from '../../views/screens/user-profile-creation.screen';
 import { IAuthService } from '../interfaces/auth-service.interface';
 import { IUserProfileService } from '../interfaces/user-profile-service.interface';
 
@@ -61,15 +62,15 @@ export class LoginStoreService {
     }
 
     async createUserProfile(newUserProfile: UserProfile): Promise<void> {
-        try {
+        await this.userProfileService.createUserProfile(newUserProfile);
+        runInAction(() => {
+            this.userProfile = newUserProfile;
+        });
 
-            await this.userProfileService.createUserProfile(newUserProfile);
-            runInAction(() => {
-                this.userProfile = newUserProfile;
-            });
-        } catch (r) {
-            console.log(r);
-        }
+    }
+
+    async storeAvatar(avatar: AvatarSource): Promise<void> {
+        await this.userProfileService.storeAvatar(avatar);
     }
 
 }
