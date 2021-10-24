@@ -21,12 +21,12 @@ export const LoginComponent: React.FC<Props> = observer(
                     onPress={async () => {
                         try {
                             const userProfile = await loginStoreService.login();
-                            if(userProfile.uniqueUserName === '') {
+                            if(!userProfile) {
                                 navigation.navigate('UserProfileCreation');
                             }
 
                         } catch {
-                            // TODO:  Will rework later for a more crossplatform solutin
+                            // TODO:  Will rework later for a more crossplatform solution
                             ToastAndroid.show('Failed to login', ToastAndroid.LONG);
                         }
                     }}

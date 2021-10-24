@@ -34,15 +34,21 @@ export class LoginStoreService {
         return this._token;
     }
 
-    async login(): Promise<UserProfile> {
-        this._token = await this.authService.login();
-        const userProfile = await this.userProfileService.getConnectedUserProfile();
-        runInAction(() => {
-            this.userProfile = userProfile;
-        });
+    async login(): Promise<UserProfile | null> {
+        await this.authService.login();
 
-        return userProfile;
-    }    
+
+        const userProfile = await this.userProfileService.getConnectedUserProfile();
+
+        if (!userProfile) {
+            return null;
+        }
+
+        return runInAction(() => {
+            this.userProfile = userProfile;
+            return userProfile;
+        });
+    }
 
     async logout(): Promise<void> {
         runInAction(() => {
@@ -55,10 +61,15 @@ export class LoginStoreService {
     }
 
     async createUserProfile(newUserProfile: UserProfile): Promise<void> {
-        await this.userProfileService.createUserProfile(newUserProfile);
-        runInAction(() => {
-            this.userProfile = newUserProfile;
-        });
+        try {
+
+            await this.userProfileService.createUserProfile(newUserProfile);
+            runInAction(() => {
+                this.userProfile = newUserProfile;
+            });
+        } catch (r) {
+            console.log(r);
+        }
     }
 
 }

@@ -17,9 +17,9 @@ export class FakeUserProfileService implements IUserProfileService{
     }
 
 
-    createUserProfile(newUserProfile: UserProfile): Promise<void> {
+    createUserProfile(newUserProfile: UserProfile): Promise<UserProfile> {
         this._currentUserProfile = newUserProfile;
-        return Promise.resolve();
+        return Promise.resolve(newUserProfile);
     }
     
 }

@@ -5,8 +5,8 @@ import { IAuthService } from '../../interfaces/auth-service.interface';
 @injectable()
 export class FakeAuthService implements IAuthService {
 
-    login(): Promise<string> {
-        return Promise.resolve('fake token');
+    login(): Promise<void> {
+        return Promise.resolve();
     }
     logout(): Promise<void> {
         return Promise.resolve();

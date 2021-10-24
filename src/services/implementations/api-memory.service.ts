@@ -1,40 +1,48 @@
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
+import EncryptedStorage from 'react-native-encrypted-storage';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import { BackendApi } from '../../configuration/backend-api.conf';
-import { AppContainerTypes } from '../../inversify/app-container-types';
+import { UserSession } from '../../data/user-session';
 import { IRandomMemoryAccessService, UriVideoSource } from '../interfaces/random-memory-access-service.interface';
-import { LoginStoreService } from '../stores/login.store.service';
 
 
 
 @injectable()
 export class ApiMemoryService implements IRandomMemoryAccessService {
 
-    @inject(AppContainerTypes.LoginStoreService) private readonly authService!: LoginStoreService
 
-
-
-    getRandomMemory(): Promise<UriVideoSource> {
+    async getRandomMemory(): Promise<UriVideoSource> {
         const endpoint = 'RandomMemories';
 
         const fullUrl = new URL(endpoint, BackendApi.rootUrl).href;
 
-        const bearerToken = `Bearer ${this.authService.token}`;
 
-        return fetch(fullUrl, {
+        const token = await this.getToken();
+        const bearerToken = `Bearer ${token}`;
+
+        const response = await fetch(fullUrl, {
             method: 'GET',
             headers: {
                 'Authorization': bearerToken
             }
-        }).then(response => response.text()
-            .then(textResponse => {
-                const uriVideoSource: UriVideoSource = {
-                    uri: textResponse
-                };
-                return uriVideoSource;
-            })
-        );
+        });
+        const textResponse = await response.text();
+        const uriVideoSource: UriVideoSource = {
+            uri: textResponse
+        };
+        return uriVideoSource;
     }
+
+    async getToken(): Promise<string> {
+
+        const item = await EncryptedStorage.getItem('user_session');
+        if(item){
+            const session = JSON.parse(item) as UserSession;
+            return session.accesstoken;
+        }
+        return '';
+    }
+
 }
 
