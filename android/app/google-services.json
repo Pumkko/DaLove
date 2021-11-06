@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454187368479",
+    "project_id": "dalove-ef6e5",
+    "storage_bucket": "dalove-ef6e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454187368479:android:1ff449dbdfbdba1061552a",
+        "android_client_info": {
+          "package_name": "com.dalove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454187368479-kjunbo142e2l6hdodbc8j59f50ft26v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOLXzgOfC9qUVqU4xr7czsriJJ5yeBHS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454187368479-kjunbo142e2l6hdodbc8j59f50ft26v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
