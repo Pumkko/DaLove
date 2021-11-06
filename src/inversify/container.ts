@@ -9,6 +9,7 @@ import { IRandomMemoryAccessService } from '../services/interfaces/random-memory
 import { IUserProfileService } from '../services/interfaces/user-profile-service.interface';
 import { LoginStoreService } from '../services/stores/login.store.service';
 import { MemoryStoreService } from '../services/stores/memory.store.service';
+import { UploadMemoryStoreService } from '../services/stores/upload-memory.store.service';
 import { AppContainerTypes } from './app-container-types';
 
 
@@ -20,7 +21,8 @@ const AppContainer: interfaceContainerMethod = () => {
     
     container.bind<LoginStoreService>(AppContainerTypes.LoginStoreService).to(LoginStoreService).inSingletonScope();
     container.bind<MemoryStoreService>(AppContainerTypes.MemoryStoreService).to(MemoryStoreService).inSingletonScope();
-    
+    container.bind<UploadMemoryStoreService>(AppContainerTypes.UploadMemoryStoreService).to(UploadMemoryStoreService).inSingletonScope();
+
     container.bind<IAuthService>(AppContainerTypes.IAuthService).to(FakeAuthService);
     container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(FakeUserProfileService);
     container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(FakeMemoryVideoService);

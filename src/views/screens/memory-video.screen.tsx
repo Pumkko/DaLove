@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Video from 'react-native-video';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 import { observer } from 'mobx-react';

@@ -8,7 +8,6 @@ import { IUserProfileService } from '../interfaces/user-profile-service.interfac
 
 @injectable()
 export class UserProfileService implements IUserProfileService {
-
     async createUserProfile(newUserProfile: UserProfile): Promise<UserProfile> {
         const endpoint = 'UserProfile';
 

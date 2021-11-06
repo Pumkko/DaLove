@@ -3,6 +3,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import { BackendApi } from '../../configuration/backend-api.conf';
+import { UserProfile } from '../../data/user-profile';
 import { UserSession } from '../../data/user-session';
 import { IRandomMemoryAccessService, UriVideoSource } from '../interfaces/random-memory-access-service.interface';
 
@@ -33,6 +34,27 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
         };
         return uriVideoSource;
     }
+
+
+    async getPossibleRecipientList(filter: string): Promise<UserProfile[]> {
+        const endpoint = `Recipients/${filter}`;
+
+        const fullUrl = new URL(endpoint, BackendApi.rootUrl).href;
+
+        const token = await this.getToken();
+        const bearerToken = `Bearer ${token}`;
+
+        const response = await fetch(fullUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': bearerToken,
+            }
+        });
+
+        const jsonResponse = await response.json();
+        return jsonResponse;
+    }
+
 
     async getToken(): Promise<string> {
 

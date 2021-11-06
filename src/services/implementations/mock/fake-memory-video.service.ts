@@ -1,8 +1,26 @@
 import { injectable } from 'inversify';
+import { UserProfile } from '../../../data/user-profile';
 import { IRandomMemoryAccessService, UriVideoSource } from '../../interfaces/random-memory-access-service.interface';
 
 @injectable()
 export class FakeMemoryVideoService implements IRandomMemoryAccessService {
+
+
+    getPossibleRecipientList(filter: string): Promise<UserProfile[]> {
+        const profiles: UserProfile[] = [
+            {
+                displayName: 'Calot',
+                uniqueUserName: 'Jean rené',
+                avatarUri: 'https://placebear.com/640/360'
+            },
+            {
+                displayName: 'Moïse',
+                uniqueUserName: 'confidentiel'
+            }
+        ];
+
+        return Promise.resolve(profiles);
+    }
 
     getRandomMemory(): Promise<UriVideoSource> {
 
