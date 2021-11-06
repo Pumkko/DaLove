@@ -1,32 +1,33 @@
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 import Video from 'react-native-video';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/navigation-types';
 import { observer } from 'mobx-react';
-import { MemoryVideoComponentParams } from '../navigation/memory-video-component.params';
-import { RouteParams } from '../navigation/route.params';
-type ProfileScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'MemoryVideo'
->;
+import { useInjection } from 'inversify-react';
+import { AppContainerTypes } from '../../inversify/app-container-types';
+import { MemoryVideoViewNavigationProp } from '../../navigation/navigation-types';
+import { MemoryStoreService } from '../../services/stores/memory.store.service';
 
 type Props = {
-  navigation: ProfileScreenNavigationProp;
-  route: RouteParams<MemoryVideoComponentParams>;
+  navigation: MemoryVideoViewNavigationProp;
 };
 
-export const MemoryVideoComponent: React.FC<Props> = observer(
-    ({ route, navigation }: Props) => {
+export const MemoryVideoScreen: React.FC<Props> = observer(
+    ({ navigation }: Props) => {
+
+        const memoryStoreService = useInjection<MemoryStoreService>(AppContainerTypes.MemoryStoreService);
+
         const width = Dimensions.get('screen').width;
         const height = Dimensions.get('screen').height;
 
-        
-        if(route.params.randomVideoStoreService.hasValidSource){
+        useEffect(() => {
+            memoryStoreService.getRandomMemory();         
+        }, []);
+
+        if (memoryStoreService.hasValidMemorySource) {
             return (
                 <View style={{ flex: 1, backgroundColor: 'black' }}>
                     <Video
-                        source={route.params.randomVideoStoreService.source}
+                        source={memoryStoreService.memorySource}
                         resizeMode={'contain'}
                         style={{
                             aspectRatio: width / height,
@@ -40,16 +41,16 @@ export const MemoryVideoComponent: React.FC<Props> = observer(
                     />
                 </View>
             );
-        }
-        else {
+        } else {
             return (
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <View
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                >
                     <ActivityIndicator size="large" />
                 </View>
             );
-
         }
     }
 );
 
-export default MemoryVideoComponent;
+export default MemoryVideoScreen;
