@@ -21,8 +21,8 @@ export class FakeUserProfileService implements IUserProfileService{
         return Promise.resolve(newUserProfile);
     }
 
-    storeAvatar(): Promise<void> {
-        return Promise.resolve();
+    storeAvatar(): Promise<string> {
+        return Promise.resolve('https://placebear.com/640/360');
     }
     
 }

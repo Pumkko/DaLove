@@ -56,7 +56,7 @@ export class UserProfileService implements IUserProfileService {
         return jsonResponse;
     }
 
-    async storeAvatar(avatarFileName: AvatarSource): Promise<void> {
+    async storeAvatar(avatarFileName: AvatarSource): Promise<string> {
         const form = new FormData();
 
         form.append('file', {
@@ -72,7 +72,7 @@ export class UserProfileService implements IUserProfileService {
         const token = await this.getToken();
         const bearerToken = `Bearer ${token}`;
 
-        await fetch(fullUrl.href, {
+        const response = await fetch(fullUrl.href, {
             method: 'POST',
             headers: {
                 'Authorization': bearerToken,
@@ -80,6 +80,8 @@ export class UserProfileService implements IUserProfileService {
             },
             body: form
         });
+
+        return response.json();
     }
 
     async getToken(): Promise<string> {

@@ -13,15 +13,9 @@ const MainViewStyle = StyleSheet.create({
         height: '100%'
     },
 
-    loginButton: {
+    loginComponent: {
         alignSelf: 'flex-end',
         padding: 10
-    },
-
-    loginButtonText: {
-        textAlign: 'center',
-        color: 'white',
-        fontSize: 18
     },
 
     loveButton: {
@@ -37,7 +31,6 @@ const MainViewStyle = StyleSheet.create({
         textAlign: 'center',
         color: 'white'
     }
-
 
 });
 

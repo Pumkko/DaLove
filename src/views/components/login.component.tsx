@@ -1,49 +1,32 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { TouchableOpacity, Text, ToastAndroid } from 'react-native';
-import MainViewStyle from '../../MainView.style';
-import { MainViewNavigationProp } from '../../navigation/navigation-types';
+import { Image, ActivityIndicator, View, Text } from 'react-native';
 import { LoginStoreService } from '../../services/stores/login.store.service';
-
+import LoginComponentStyle from './login.component.style';
 
 type Props = {
-    navigation: MainViewNavigationProp;  
-    loginStoreService: LoginStoreService;
+  loginStoreService: LoginStoreService;
 };
 
 export const LoginComponent: React.FC<Props> = observer(
-    ({ navigation, loginStoreService }: Props) => {
-
+    ({ loginStoreService }: Props) => {
         if (!loginStoreService.isLoginSuccessfull) {
-            return (
-                <TouchableOpacity
-                    style={MainViewStyle.loginButton}
-                    onPress={async () => {
-                        try {
-                            const userProfile = await loginStoreService.login();
-                            if(!userProfile) {
-                                navigation.navigate('UserProfileCreation');
-                            }
-
-                        } catch {
-                            // TODO:  Will rework later for a more crossplatform solution
-                            ToastAndroid.show('Failed to login', ToastAndroid.LONG);
-                        }
-                    }}
-                >
-                    <Text style={MainViewStyle.loginButtonText}>Login</Text>
-                </TouchableOpacity>
-            );
+            return <ActivityIndicator size="large" color="white"></ActivityIndicator>;
         } else {
             return (
-                <TouchableOpacity
-                    style={MainViewStyle.loginButton}
-                    onPress={async () => {
-                        await loginStoreService.logout();
-                    }}
-                >
-                    <Text style={MainViewStyle.loginButtonText}>Log out</Text>
-                </TouchableOpacity>
+                <View>
+                    {loginStoreService.hasValidAvatar ? (
+                        <Image
+                            style={LoginComponentStyle.avatarStyle}
+                            source={{ uri: loginStoreService.userProfile.avatarUri }}
+                        ></Image>
+                    ) : (
+                        <Image
+                            style={LoginComponentStyle.avatarStyle}
+                            source={require('../../assets/images/blank_avatar.png')}
+                        ></Image>
+                    )}
+                </View>
             );
         }
     }

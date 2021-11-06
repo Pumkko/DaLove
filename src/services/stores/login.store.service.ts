@@ -17,12 +17,15 @@ export class LoginStoreService {
         uniqueUserName: '',
     };
 
+    hasValidAvatar = false;
+
     @inject(AppContainerTypes.IAuthService) private readonly authService!: IAuthService
     @inject(AppContainerTypes.IUserProfileService) private readonly userProfileService!: IUserProfileService;
 
     constructor() {
         makeObservable<LoginStoreService>(this, {
             userProfile: observable,
+            hasValidAvatar: observable,
             isLoginSuccessfull: computed
         });
     }
@@ -47,6 +50,9 @@ export class LoginStoreService {
 
         return runInAction(() => {
             this.userProfile = userProfile;
+            if (userProfile.avatarUri) {
+                this.hasValidAvatar = true;
+            }
             return userProfile;
         });
     }
@@ -70,7 +76,11 @@ export class LoginStoreService {
     }
 
     async storeAvatar(avatar: AvatarSource): Promise<void> {
-        await this.userProfileService.storeAvatar(avatar);
+        const uri = await this.userProfileService.storeAvatar(avatar);
+        this.userProfile.avatarUri = uri;
+        runInAction(() => {
+            this.hasValidAvatar = true;
+        });
     }
 
 }
