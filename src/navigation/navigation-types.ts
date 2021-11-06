@@ -1,11 +1,12 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 
 export type RootStackParamList = {
-    MainView: undefined, // undefined because you aren't passing any params to the home screen
-    MemoryVideo: undefined,
-    UserProfileCreation: undefined;
-  };
-  
+  MainView: undefined, // undefined because you aren't passing any params to the home screen
+  MemoryVideo: undefined,
+  UserProfileCreation: undefined;
+  UploadMemory: undefined;
+};
+
 
 
 export type MainViewNavigationProp = StackNavigationProp<
@@ -22,3 +23,8 @@ export type UserProfileCreationNavigationProp = StackNavigationProp<
   RootStackParamList,
   'UserProfileCreation'
 >;
+
+export type UploadMemoryNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'UploadMemory'
+>

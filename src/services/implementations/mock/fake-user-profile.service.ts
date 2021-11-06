@@ -4,11 +4,12 @@ import { IUserProfileService } from '../../interfaces/user-profile-service.inter
 
 
 @injectable()
-export class FakeUserProfileService implements IUserProfileService{
+export class FakeUserProfileService implements IUserProfileService {
 
-    private _currentUserProfile = {
-        displayName: '',
-        uniqueUserName: ''
+    private _currentUserProfile: UserProfile = {
+        displayName: 'display_fake',
+        uniqueUserName: 'unique_fake', 
+        avatarUri: 'https://placebear.com/640/360'
     };
 
     getConnectedUserProfile(): Promise<UserProfile> {
@@ -24,5 +25,5 @@ export class FakeUserProfileService implements IUserProfileService{
     storeAvatar(): Promise<string> {
         return Promise.resolve('https://placebear.com/640/360');
     }
-    
+
 }
