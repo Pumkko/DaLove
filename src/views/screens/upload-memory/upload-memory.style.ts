@@ -59,6 +59,13 @@ export const UploadMemoryStyle = StyleSheet.create({
     buttonTextShareMemory: {
         color: 'white',
         textAlign: 'center'
+    },
+    nextStepButton: {
+        margin: 10
+    },
+
+    nextStepText: {
+        fontSize: 18
     }
 
 

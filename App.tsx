@@ -10,8 +10,9 @@ import AppContainer from './src/inversify/container';
 import 'reflect-metadata';
 import { UserProfileCreationScreen } from './src/views/screens/user-profile-creation.screen';
 import MemoryVideoScreen from './src/views/screens/memory-video.screen';
-import { UploadMemoryScreen } from './src/views/screens/upload-memory.screen';
+import { UploadMemoryScreen } from './src/views/screens/upload-memory/upload-memory.screen';
 import { Notifications, Registered, RegistrationError } from 'react-native-notifications';
+import { UploadMemoryPickRecipientScreen } from './src/views/screens/upload-memory/upload-memory-pick-recipient.screen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -70,9 +71,19 @@ const App: React.FC = () => {
                         component={UploadMemoryScreen}
                         options={{
                             headerShown: true,
-                            title: 'Upload memory',
+                            title: 'Upload memory'
                         }}
                     ></Stack.Screen>
+
+                    <Stack.Screen
+                        name="PickMemoryRecipient"
+                        component={UploadMemoryPickRecipientScreen}
+                        options={{
+                            headerShown: true,
+                            title: 'Share this memory with'
+                        }}
+                    ></Stack.Screen>
+                    
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

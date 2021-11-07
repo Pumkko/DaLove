@@ -2,7 +2,6 @@ import { useInjection } from 'inversify-react';
 import React from 'react';
 import {
     Image,
-    ListRenderItem,
     Text,
     TouchableOpacity,
     View,
@@ -10,7 +9,7 @@ import {
 import { UserProfile } from '../../data/user-profile';
 import { AppContainerTypes } from '../../inversify/app-container-types';
 import { UploadMemoryStoreService } from '../../services/stores/upload-memory.store.service';
-import UploadMemoryStyle from '../screens/upload-memory.style';
+import UploadMemoryStyle from '../screens/upload-memory/upload-memory.style';
 
 type Props = {
   item: UserProfile;

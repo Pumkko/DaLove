@@ -16,6 +16,10 @@ export class FakeMemoryVideoService implements IRandomMemoryAccessService {
             {
                 displayName: 'Moïse',
                 uniqueUserName: 'confidentiel'
+            },
+            {
+                displayName: 'Moulinier',
+                uniqueUserName: 'Afrique'
             }
         ];
 

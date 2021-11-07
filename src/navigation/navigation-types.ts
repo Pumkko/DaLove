@@ -5,6 +5,7 @@ export type RootStackParamList = {
   MemoryVideo: undefined,
   UserProfileCreation: undefined;
   UploadMemory: undefined;
+  PickMemoryRecipient: undefined;
 };
 
 
@@ -27,4 +28,9 @@ export type UserProfileCreationNavigationProp = StackNavigationProp<
 export type UploadMemoryNavigationProp = StackNavigationProp<
   RootStackParamList,
   'UploadMemory'
+>
+
+export type PickMemoryRecipientProp = StackNavigationProp<
+  RootStackParamList,
+  'PickMemoryRecipient'
 >

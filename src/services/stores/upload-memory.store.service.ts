@@ -12,6 +12,10 @@ export interface MemoryVideoUpload {
     path: string;
 }
 
+interface PickerError {
+    code: string;
+}
+
 @injectable()
 export class UploadMemoryStoreService {
 
@@ -41,18 +45,27 @@ export class UploadMemoryStoreService {
         });
     }
 
-    async pickVideoToUplaod(): Promise<void> {
-        const video = await ImageCropPicker.openPicker({
-            mediaType: 'video',
-        });
+    async pickVideoToUplaod(): Promise<boolean> {
 
-        runInAction(() => {
-            this.memoryToSend = {
-                height: video.height,
-                width: video.width,
-                path: video.path,
-            };
-        });
+        try {
+            const video = await ImageCropPicker.openPicker({
+                mediaType: 'video',
+            });
+
+        
+            runInAction(() => {
+                this.memoryToSend = {
+                    height: video.height,
+                    width: video.width,
+                    path: video.path,
+                };
+            });
+
+            return true;
+        }
+        catch(err){
+            return false;
+        }
     }
 
     async getPossibleRecipientList(filter: string): Promise<void> {
