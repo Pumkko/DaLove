@@ -1,4 +1,3 @@
-import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import React from 'react';
 import {
@@ -10,28 +9,24 @@ import {
     ListRenderItem,
 } from 'react-native';
 import { UserProfile } from '../../../data/user-profile';
-import { AppContainerTypes } from '../../../inversify/app-container-types';
 import { PickMemoryRecipientProp } from '../../../navigation/navigation-types';
 import { UploadMemoryStoreService } from '../../../services/stores/upload-memory.store.service';
 import MemoryRecipientFlatItemComponent from '../../components/memory-recipient-flat-item.component';
 import UploadMemoryStyle from './upload-memory.style';
 
-type Props = {
-  navigation: PickMemoryRecipientProp;
-};
 
-export const UploadMemoryPickRecipientScreen: React.FC<Props> = observer(
-    ({ navigation }: Props) => {
-        const uploadMemoryStoreService = useInjection<UploadMemoryStoreService>(
-            AppContainerTypes.UploadMemoryStoreService
-        );
+export const UploadMemoryPickRecipientScreen: React.FC<PickMemoryRecipientProp> = observer(
+    ({ route, navigation }: PickMemoryRecipientProp) => {
 
         let currentTimer: NodeJS.Timeout;
+
+        const uploadMemoryStoreService = route.params.uploadMemoryStoreService;
 
         const renderProfile: ListRenderItem<UserProfile> = ({ item }) => {
             return (
                 <MemoryRecipientFlatItemComponent
                     item={item}
+                    uploadMemoryStoreService={uploadMemoryStoreService}
                 ></MemoryRecipientFlatItemComponent>
             );
         };
@@ -67,7 +62,11 @@ export const UploadMemoryPickRecipientScreen: React.FC<Props> = observer(
                 />
 
                 {uploadMemoryStoreService.selectedRecipients.length !== 0 && (
-                    <TouchableOpacity style={UploadMemoryStyle.buttonShareMemory}>
+                    <TouchableOpacity style={UploadMemoryStyle.buttonShareMemory} onPress={
+                        () => {
+                            uploadMemoryStoreService.uploadMemory();
+                        }
+                    }>
                         <Text style={UploadMemoryStyle.buttonTextShareMemory}>
               Share my memory !
                         </Text>

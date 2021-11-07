@@ -20,11 +20,11 @@ const AppContainer: interfaceContainerMethod = () => {
     const container = new Container();
     
     container.bind<LoginStoreService>(AppContainerTypes.LoginStoreService).to(LoginStoreService).inSingletonScope();
-    container.bind<MemoryStoreService>(AppContainerTypes.MemoryStoreService).to(MemoryStoreService).inSingletonScope();
-    container.bind<UploadMemoryStoreService>(AppContainerTypes.UploadMemoryStoreService).to(UploadMemoryStoreService).inSingletonScope();
+    container.bind<MemoryStoreService>(AppContainerTypes.MemoryStoreService).to(MemoryStoreService);
+    container.bind<UploadMemoryStoreService>(AppContainerTypes.UploadMemoryStoreService).to(UploadMemoryStoreService);
 
-    container.bind<IAuthService>(AppContainerTypes.IAuthService).to(FakeAuthService);
-    container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(FakeUserProfileService);
+    container.bind<IAuthService>(AppContainerTypes.IAuthService).to(Auth0Service);
+    container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(UserProfileService);
     container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(FakeMemoryVideoService);
 
     return container;

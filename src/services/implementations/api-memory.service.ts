@@ -3,16 +3,16 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import { BackendApi } from '../../configuration/backend-api.conf';
+import { PostMemory } from '../../data/post-memory';
 import { UserProfile } from '../../data/user-profile';
 import { UserSession } from '../../data/user-session';
 import { IRandomMemoryAccessService, UriVideoSource } from '../interfaces/random-memory-access-service.interface';
+import { MemoryVideoUpload } from '../stores/upload-memory.store.service';
 
 
 
 @injectable()
 export class ApiMemoryService implements IRandomMemoryAccessService {
-
-
     async getRandomMemory(): Promise<UriVideoSource> {
         const endpoint = 'RandomMemories';
 
@@ -64,6 +64,16 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
             return session.accesstoken;
         }
         return '';
+    }
+
+
+    pushNewMemory(memoryToSend: MemoryVideoUpload, recipientsUniqueUserName: string[], caption?: string): Promise<void> {
+        const dto: PostMemory = {
+            memoryCaption: caption,
+            recipients: recipientsUniqueUserName
+        };
+
+        
     }
 
 }

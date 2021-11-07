@@ -13,15 +13,10 @@ import UploadMemoryStyle from '../screens/upload-memory/upload-memory.style';
 
 type Props = {
   item: UserProfile;
-  
+  uploadMemoryStoreService: UploadMemoryStoreService
 };
 
-const MemoryRecipientFlatItemComponent: React.FC<Props> = ({ item }: Props) => {
-
-    const uploadMemoryStoreService = useInjection<UploadMemoryStoreService>(
-        AppContainerTypes.UploadMemoryStoreService
-    );
-
+const MemoryRecipientFlatItemComponent: React.FC<Props> = ({ item, uploadMemoryStoreService }: Props) => {
 
     return (
         <TouchableOpacity

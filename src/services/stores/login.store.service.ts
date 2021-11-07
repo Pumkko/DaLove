@@ -41,18 +41,20 @@ export class LoginStoreService {
     async login(): Promise<UserProfile | null> {
         await this.authService.login();
 
-
         const userProfile = await this.userProfileService.getConnectedUserProfile();
 
         if (!userProfile) {
             return null;
         }
 
-        return runInAction(() => {
-            this.userProfile = userProfile;
+        runInAction(() => {
             if (userProfile.avatarUri) {
                 this.hasValidAvatar = true;
             }
+        });
+
+        return runInAction(() => {
+            this.userProfile = userProfile;
             return userProfile;
         });
     }

@@ -24,7 +24,9 @@ export const UploadMemoryScreen: React.FC<Props> = observer(
                     <TouchableOpacity
                         style={UploadMemoryStyle.nextStepButton}
                         onPress={() => {
-                            navigation.navigate('PickMemoryRecipient');
+                            navigation.navigate('PickMemoryRecipient', {
+                                uploadMemoryStoreService: uploadMemoryStoreService
+                            });
                         }}
                     >
                         <Text style={UploadMemoryStyle.nextStepText}
@@ -63,6 +65,9 @@ export const UploadMemoryScreen: React.FC<Props> = observer(
                         style={UploadMemoryStyle.memoryCaption}
                         placeholder="Write a caption"
                         multiline={true}
+                        onChangeText={(newValue) => {
+                            uploadMemoryStoreService.memoryCaption = newValue;
+                        }}
                     ></TextInput>
                 </SafeAreaView>
             );

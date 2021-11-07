@@ -12,13 +12,8 @@ export interface MemoryVideoUpload {
     path: string;
 }
 
-interface PickerError {
-    code: string;
-}
-
 @injectable()
 export class UploadMemoryStoreService {
-
     possibleRecipients: UserProfile[] = [];
     selectedRecipients: UserProfile[] = [];
 
@@ -28,12 +23,13 @@ export class UploadMemoryStoreService {
         path: ''
     };
 
+    memoryCaption?: string;
 
     get hasPickedAMemory(): boolean {
         return this.memoryToSend.path as unknown as boolean;
     }
 
-    @inject(AppContainerTypes.IRandomMemoryAccessService) private readonly memoryServiceService!: IRandomMemoryAccessService
+    @inject(AppContainerTypes.IRandomMemoryAccessService) private readonly memoryService!: IRandomMemoryAccessService
 
     constructor() {
         makeObservable(this, {
@@ -69,7 +65,7 @@ export class UploadMemoryStoreService {
     }
 
     async getPossibleRecipientList(filter: string): Promise<void> {
-        const recipients = await this.memoryServiceService.getPossibleRecipientList(filter);
+        const recipients = await this.memoryService.getPossibleRecipientList(filter);
         runInAction(() => {
             this.possibleRecipients = recipients;
         });
@@ -83,5 +79,13 @@ export class UploadMemoryStoreService {
             this.selectedRecipients.push(recipient);
         }
 
+    }
+
+    async uploadMemory(): Promise<void> {
+        if(!this.hasPickedAMemory || this.selectedRecipients.length === 0){
+            return Promise.resolve();
+        }
+
+        await this.memoryService.pushNewMemory(this.memoryToSend, this.selectedRecipients.map(r => r.uniqueUserName), this.memoryCaption);
     }
 }

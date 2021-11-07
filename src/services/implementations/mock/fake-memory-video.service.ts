@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
 import { UserProfile } from '../../../data/user-profile';
 import { IRandomMemoryAccessService, UriVideoSource } from '../../interfaces/random-memory-access-service.interface';
+import { MemoryVideoUpload } from '../../stores/upload-memory.store.service';
 
 @injectable()
 export class FakeMemoryVideoService implements IRandomMemoryAccessService {
-
 
     getPossibleRecipientList(filter: string): Promise<UserProfile[]> {
         const profiles: UserProfile[] = [
@@ -33,6 +33,10 @@ export class FakeMemoryVideoService implements IRandomMemoryAccessService {
         };
 
         return Promise.resolve<UriVideoSource>(fakeUri);
+    }
+
+    pushNewMemory(): Promise<void> {
+        return Promise.resolve();
     }
 
 }

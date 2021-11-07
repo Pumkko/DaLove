@@ -33,6 +33,8 @@ export const UserProfileCreationStyle = StyleSheet.create({
     },
 
     submitButton: {
+        alignSelf: 'center',
+        height: 50
     },
 
     submitButtonText: {
