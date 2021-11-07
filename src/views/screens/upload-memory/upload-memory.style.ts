@@ -11,7 +11,7 @@ export const UploadMemoryStyle = StyleSheet.create({
 
     memory: {
         alignSelf: 'center',
-        width: '100%'
+        height: '90%'
     },
 
     memoryCaption: {

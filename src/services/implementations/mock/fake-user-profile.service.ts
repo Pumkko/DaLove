@@ -13,7 +13,7 @@ export class FakeUserProfileService implements IUserProfileService {
 
 
     getConnectedUserProfile(): Promise<UserProfile | null> {
-        return Promise.resolve(null);
+        return Promise.resolve(this._currentUserProfile);
     }
 
 
