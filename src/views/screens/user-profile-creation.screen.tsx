@@ -1,36 +1,30 @@
 import { useInjection } from 'inversify-react';
 import ImagePicker from 'react-native-image-crop-picker';
-import React, { useState } from 'react';
-import { Text, Image, View } from 'react-native';
-import {
-    TextInput,
-    TouchableOpacity,
-} from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { Text, Image, View, Alert } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { AppContainerTypes } from '../../inversify/app-container-types';
 import MainViewStyle from '../../MainView.style';
 import { UserProfileCreationNavigationProp } from '../../navigation/navigation-types';
 import { LoginStoreService } from '../../services/stores/login.store.service';
 import { UserProfileCreationStyle } from './user-profile-creation.screen.style';
 
-
 type Props = {
-    navigation: UserProfileCreationNavigationProp;
+  navigation: UserProfileCreationNavigationProp;
 };
 
-
 class AvatarRequire {
-    static path = require('../../assets/images/blank_avatar.png');
+  static path = require('../../assets/images/blank_avatar.png');
 }
 
 export interface AvatarSource {
-    uri: string;
-    mimeType: string;
+  uri: string;
+  mimeType: string;
 }
 
 export const UserProfileCreationScreen: React.FC<Props> = ({
     navigation,
 }: Props) => {
-
     const loginStoreService = useInjection<LoginStoreService>(
         AppContainerTypes.LoginStoreService
     );
@@ -38,6 +32,25 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
     const [uniqueUserName, setUniqueUserName] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [imagePath, setImagePath] = useState<AvatarSource>(AvatarRequire.path);
+    const [userNameAvailable, setuserNameAvailable] = useState<boolean | null>(
+        null
+    );
+
+    useEffect(() => {
+        if (!uniqueUserName) {
+            return;
+        }
+
+        const timeOutId = setTimeout(() => {
+            loginStoreService
+                .isUsernameAvailable(uniqueUserName)
+                .then((isAvailable) => {
+                    setuserNameAvailable(isAvailable);
+                });
+        }, 500);
+
+        return () => clearTimeout(timeOutId);
+    }, [uniqueUserName]);
 
     return (
         <View style={UserProfileCreationStyle.container}>
@@ -49,17 +62,20 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
                         cropping: true,
                         mediaType: 'photo',
                         cropperCircleOverlay: true,
-                        includeBase64: true
+                        includeBase64: true,
                     }).then((selectedImage) => {
                         const newSource: AvatarSource = {
                             uri: selectedImage.path,
-                            mimeType: selectedImage.mime
+                            mimeType: selectedImage.mime,
                         };
                         setImagePath(newSource);
                     });
                 }}
             >
-                <Image style={UserProfileCreationStyle.avatarStyle} source={imagePath}></Image>
+                <Image
+                    style={UserProfileCreationStyle.avatarStyle}
+                    source={imagePath}
+                ></Image>
             </TouchableOpacity>
 
             <View style={UserProfileCreationStyle.textBlock}>
@@ -68,6 +84,8 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
                     onChangeText={setUniqueUserName}
                     style={UserProfileCreationStyle.textInputStyle}
                 ></TextInput>
+                {userNameAvailable && <Text>Username is available !</Text>}
+                {userNameAvailable === false && <Text>Username is not available !</Text>}
             </View>
             <View style={UserProfileCreationStyle.textBlock}>
                 <Text>Display username</Text>
@@ -77,29 +95,31 @@ export const UserProfileCreationScreen: React.FC<Props> = ({
                 ></TextInput>
             </View>
 
-            <TouchableOpacity
-                style={[
-                    MainViewStyle.loveButton,
-                    UserProfileCreationStyle.submitButton,
-                ]}
-            >
-                <Text
+            {userNameAvailable && (
+                <TouchableOpacity
                     style={[
-                        MainViewStyle.loveButtonText,
-                        UserProfileCreationStyle.submitButtonText,
+                        MainViewStyle.loveButton,
+                        UserProfileCreationStyle.submitButton,
                     ]}
-                    onPress={async () => {
-                        await loginStoreService.createUserProfile({
-                            uniqueUserName,
-                            displayName,
-                        });
-                        await loginStoreService.storeAvatar(imagePath);
-                        navigation.navigate('MainView');
-                    }}
                 >
-          Submit
-                </Text>
-            </TouchableOpacity>
+                    <Text
+                        style={[
+                            MainViewStyle.loveButtonText,
+                            UserProfileCreationStyle.submitButtonText,
+                        ]}
+                        onPress={async () => {
+                            await loginStoreService.createUserProfile({
+                                uniqueUserName,
+                                displayName,
+                            });
+                            await loginStoreService.storeAvatar(imagePath);
+                            navigation.navigate('MainView');
+                        }}
+                    >
+            Submit
+                    </Text>
+                </TouchableOpacity>
+            )}
         </View>
     );
 };

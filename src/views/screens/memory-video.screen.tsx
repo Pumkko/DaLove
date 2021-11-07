@@ -1,11 +1,12 @@
-import React, { memo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Video from 'react-native-video';
-import { ActivityIndicator, Dimensions, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, Text, View } from 'react-native';
 import { observer } from 'mobx-react';
 import { useInjection } from 'inversify-react';
 import { AppContainerTypes } from '../../inversify/app-container-types';
 import { MemoryVideoViewNavigationProp } from '../../navigation/navigation-types';
 import { MemoryStoreService } from '../../services/stores/memory.store.service';
+import MemoryVideoScreenStyle from './memory-video.screen.style';
 
 type Props = {
   navigation: MemoryVideoViewNavigationProp;
@@ -25,22 +26,46 @@ export const MemoryVideoScreen: React.FC<Props> = observer(
 
         if (memoryStoreService.hasValidMemorySource) {
             return (
-                <View style={{ flex: 1, backgroundColor: 'black' }}>
+                <View style={{flex: 1, backgroundColor: 'black'  }}>
+        
                     <Video
-                        source={memoryStoreService.memorySource}
+                        source={{ uri: memoryStoreService.memory.memoryUri }}
                         resizeMode={'contain'}
                         style={{
                             aspectRatio: width / height,
-                            width: '100%',
+                            width: '100%'
                         }}
-                        controls={true}
                         autoplay={true}
                         onEnd={() => {
                             navigation.goBack();
                         }}
                     />
+
+                    <View style={{ marginTop: -150}}>
+
+                        <Text style={MemoryVideoScreenStyle.sharedBy}>Shared by</Text>
+
+                        <View style={MemoryVideoScreenStyle.creatorProfileContainer}>
+                            {memoryStoreService.memory.creator.avatarUri ? (
+                                <Image
+                                    style={MemoryVideoScreenStyle.avatarStyle}
+                                    source={{ uri: memoryStoreService.memory.creator.avatarUri }}
+                                ></Image>
+                            ) : (
+                                <Image
+                                    style={MemoryVideoScreenStyle.avatarStyle}
+                                    source={require('../../assets/images/blank_avatar.png')}
+                                ></Image>
+                            )}
+
+                            <View style={{height: 64, width: '100%'}}>
+                                <Text style={MemoryVideoScreenStyle.displayName}>{memoryStoreService.memory.creator.displayName}</Text>
+                                <Text style={MemoryVideoScreenStyle.uniqueName}>{memoryStoreService.memory.creator.uniqueUserName}</Text>
+                            </View>
+                        </View>
+                    </View>
                 </View>
-            );
+            );  
         } else {
             return (
                 <View

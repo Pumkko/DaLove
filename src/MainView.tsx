@@ -1,6 +1,12 @@
 import { useInjection } from 'inversify-react';
 import React, { useEffect, useState } from 'react';
-import { Text, ImageBackground, TouchableOpacity, View } from 'react-native';
+import {
+    Text,
+    ImageBackground,
+    TouchableOpacity,
+    View,
+    Image,
+} from 'react-native';
 import { LoginComponent } from './views/components/login.component';
 import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
@@ -15,7 +21,6 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
     const loginStoreService = useInjection<LoginStoreService>(
         AppContainerTypes.LoginStoreService
     );
-
     const [errorOccured, setErrorOccured] = useState(false);
 
     useEffect(() => {
@@ -28,6 +33,7 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
                     }
                 })
                 .catch((err) => {
+                    console.log(err);
                     loginStoreService.logout();
                     setErrorOccured(true);
                 });
@@ -51,14 +57,28 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
                     )}
                 </View>
 
-                <TouchableOpacity
-                    style={MainViewStyle.loveButton}
-                    onPress={() => {
-                        navigation.navigate('MemoryVideo');
-                    }}
-                >
-                    <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
-                </TouchableOpacity>
+                <View style={MainViewStyle.bottomContainer}>
+                    <TouchableOpacity
+                        style={MainViewStyle.loveButton}
+                        onPress={() => {
+                            navigation.navigate('MemoryVideo');
+                        }}
+                    >
+                        <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={MainViewStyle.uploadMemoryButton}
+                        onPress={() => {
+                            navigation.navigate('UploadMemory');
+                        }}
+                    >
+                        <Image
+                            style={MainViewStyle.uploadMemoryImage}
+                            source={require('./assets/images/upload.png')}
+                        ></Image>
+                    </TouchableOpacity>
+                </View>
             </View>
         </ImageBackground>
     );

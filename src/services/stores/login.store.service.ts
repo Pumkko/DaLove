@@ -9,7 +9,6 @@ import { IUserProfileService } from '../interfaces/user-profile-service.interfac
 
 @injectable()
 export class LoginStoreService {
-
     private _token = '';
 
     userProfile: UserProfile = {
@@ -41,18 +40,22 @@ export class LoginStoreService {
     async login(): Promise<UserProfile | null> {
         await this.authService.login();
 
-
         const userProfile = await this.userProfileService.getConnectedUserProfile();
 
         if (!userProfile) {
             return null;
         }
 
-        return runInAction(() => {
-            this.userProfile = userProfile;
+        await this.userProfileService.updateFcmDeviceToken();
+
+        runInAction(() => {
             if (userProfile.avatarUri) {
                 this.hasValidAvatar = true;
             }
+        });
+
+        return runInAction(() => {
+            this.userProfile = userProfile;
             return userProfile;
         });
     }
@@ -73,6 +76,7 @@ export class LoginStoreService {
             this.userProfile = newUserProfile;
         });
 
+        await this.userProfileService.updateFcmDeviceToken();
     }
 
     async storeAvatar(avatar: AvatarSource): Promise<void> {
@@ -82,5 +86,10 @@ export class LoginStoreService {
             this.hasValidAvatar = true;
         });
     }
+
+    async isUsernameAvailable(newUniqueUserName: string): Promise<boolean> {
+        return await this.userProfileService.isUsernameAvailable(newUniqueUserName);
+    }
+
 
 }

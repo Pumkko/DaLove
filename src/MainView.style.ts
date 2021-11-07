@@ -5,7 +5,12 @@ const MainViewStyle = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'flex-start',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+    },
+
+    bottomContainer: {
+        alignSelf: 'center' ,
+        flexDirection: 'row',
     },
 
     background: {
@@ -19,17 +24,31 @@ const MainViewStyle = StyleSheet.create({
     },
 
     loveButton: {
-        alignSelf: 'center',
         width: '60%',
+        height: 40,
         padding: 10,
-        marginBottom: 20,
         backgroundColor: 'palevioletred',
         borderRadius: 90,
+        marginBottom: 20,
+        marginRight: 20
     },
 
     loveButtonText: {
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
+        fontSize: 15
+    },
+
+    uploadMemoryButton: {
+        width: '10%',
+        marginBottom: 20,
+        borderRadius: 90,
+    },
+
+    uploadMemoryImage: {
+        alignSelf: 'center',
+        height: 48,
+        width: 48,
     }
 
 });

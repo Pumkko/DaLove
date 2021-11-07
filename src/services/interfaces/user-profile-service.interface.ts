@@ -5,4 +5,6 @@ export interface IUserProfileService {
     storeAvatar(avatar: AvatarSource): Promise<string>;
     createUserProfile(newUserProfile: UserProfile): Promise<UserProfile>;
     getConnectedUserProfile(): Promise<UserProfile | null>;
+    updateFcmDeviceToken(): Promise<void>;
+    isUsernameAvailable(newUniqueUserName: string): Promise<boolean>;
 }
