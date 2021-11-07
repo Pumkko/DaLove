@@ -33,6 +33,7 @@ export const MainView: React.FC<Props> = ({ navigation }: Props) => {
                     }
                 })
                 .catch((err) => {
+                    console.log(err);
                     loginStoreService.logout();
                     setErrorOccured(true);
                 });

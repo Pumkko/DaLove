@@ -5,15 +5,15 @@ import { IUserProfileService } from '../../interfaces/user-profile-service.inter
 
 @injectable()
 export class FakeUserProfileService implements IUserProfileService {
-
     private _currentUserProfile: UserProfile = {
         displayName: 'display_fake',
         uniqueUserName: 'unique_fake', 
         avatarUri: 'https://placebear.com/640/360'
     };
 
-    getConnectedUserProfile(): Promise<UserProfile> {
-        return Promise.resolve(this._currentUserProfile);
+
+    getConnectedUserProfile(): Promise<UserProfile | null> {
+        return Promise.resolve(null);
     }
 
 
@@ -26,4 +26,12 @@ export class FakeUserProfileService implements IUserProfileService {
         return Promise.resolve('https://placebear.com/640/360');
     }
 
+    updateFcmDeviceToken(): Promise<void> {
+        return Promise.resolve();
+    }
+
+    isUsernameAvailable(newUniqueUserName: string): Promise<boolean> {
+        const available = newUniqueUserName === 'empty';
+        return Promise.resolve(available);
+    }
 }

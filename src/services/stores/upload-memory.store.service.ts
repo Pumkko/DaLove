@@ -10,6 +10,7 @@ export interface MemoryVideoUpload {
     width: number;
     height: number;
     path: string;
+    mimeType: string;
 }
 
 @injectable()
@@ -20,7 +21,8 @@ export class UploadMemoryStoreService {
     memoryToSend: MemoryVideoUpload = {
         height: 0,
         width: 0,
-        path: ''
+        path: '',
+        mimeType: ''
     };
 
     memoryCaption?: string;
@@ -54,6 +56,7 @@ export class UploadMemoryStoreService {
                     height: video.height,
                     width: video.width,
                     path: video.path,
+                    mimeType: video.mime
                 };
             });
 
@@ -86,6 +89,10 @@ export class UploadMemoryStoreService {
             return Promise.resolve();
         }
 
-        await this.memoryService.pushNewMemory(this.memoryToSend, this.selectedRecipients.map(r => r.uniqueUserName), this.memoryCaption);
+        try {
+            await this.memoryService.pushNewMemory(this.memoryToSend, this.selectedRecipients.map(r => r.uniqueUserName), this.memoryCaption);
+        }catch(err){
+            console.log(err);
+        }
     }
 }

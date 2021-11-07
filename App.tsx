@@ -13,6 +13,7 @@ import MemoryVideoScreen from './src/views/screens/memory-video.screen';
 import { UploadMemoryScreen } from './src/views/screens/upload-memory/upload-memory.screen';
 import { Notifications, Registered, RegistrationError } from 'react-native-notifications';
 import { UploadMemoryPickRecipientScreen } from './src/views/screens/upload-memory/upload-memory-pick-recipient.screen';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -24,11 +25,9 @@ const App: React.FC = () => {
 
         Notifications.events().registerNotificationOpened((c) => {
             console.log(c);
-            console.log('opened');
         });
         Notifications.events().registerRemoteNotificationsRegistered((event: Registered) => {
-            // TODO: Send the token to my server so it could send back push notifications...
-            console.log('Device Token Received', event.deviceToken);
+            EncryptedStorage.setItem('device_token', event.deviceToken);
         });
         Notifications.events().registerRemoteNotificationsRegistrationFailed((event: RegistrationError) => {
             console.error(event);

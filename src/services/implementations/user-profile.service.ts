@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { BackendApi } from '../../configuration/backend-api.conf';
+import { PostFcmDeviceToken } from '../../data/post-fcm-device-token';
 import { UserProfile } from '../../data/user-profile';
 import { UserSession } from '../../data/user-session';
 import { AvatarSource } from '../../views/screens/user-profile-creation.screen';
@@ -81,6 +82,54 @@ export class UserProfileService implements IUserProfileService {
         });
 
         return response.json();
+    }
+
+    async updateFcmDeviceToken(): Promise<void> {
+        const deviceToken = await EncryptedStorage.getItem('device_token');
+        if (deviceToken) {
+            const endpoint = 'UserProfile/fcm';
+
+            const fullUrl = new URL(endpoint, BackendApi.rootUrl);
+
+            const token = await this.getToken();
+            const bearerToken = `Bearer ${token}`;
+
+            const dto: PostFcmDeviceToken = {
+                NewTcmDeviceToken: deviceToken
+            };
+
+            const body = JSON.stringify(dto);
+
+            await fetch(fullUrl.href, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Authorization': bearerToken,
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            });
+        }
+    }
+
+    async isUsernameAvailable(newUniqueUserName: string): Promise<boolean> {
+        const endpoint = `UserProfile/${newUniqueUserName}`;
+
+        const fullUrl = new URL(endpoint, BackendApi.rootUrl);
+
+        const token = await this.getToken();
+        const bearerToken = `Bearer ${token}`;
+
+        const response = await fetch(fullUrl.href, {
+            method: 'GET',
+            headers: {
+                'Authorization': bearerToken
+            }
+        });
+
+        const jsonResponse = await response.json();
+        const taken = jsonResponse as boolean;
+        return !taken;
     }
 
     async getToken(): Promise<string> {

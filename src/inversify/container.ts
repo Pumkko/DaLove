@@ -1,4 +1,5 @@
 import { interfaces, Container } from 'inversify';
+import { ApiMemoryService } from '../services/implementations/api-memory.service';
 import { Auth0Service } from '../services/implementations/auth0.service';
 import { FakeAuthService } from '../services/implementations/mock/fake-auth.service';
 import { FakeMemoryVideoService } from '../services/implementations/mock/fake-memory-video.service';
@@ -25,7 +26,7 @@ const AppContainer: interfaceContainerMethod = () => {
 
     container.bind<IAuthService>(AppContainerTypes.IAuthService).to(Auth0Service);
     container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(UserProfileService);
-    container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(FakeMemoryVideoService);
+    container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(ApiMemoryService);
 
     return container;
 };

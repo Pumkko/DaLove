@@ -28,7 +28,7 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
                 'Authorization': bearerToken
             }
         });
-        const textResponse = await response.text();
+        const textResponse = await response.json();
         const uriVideoSource: UriVideoSource = {
             uri: textResponse
         };
@@ -37,7 +37,7 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
 
 
     async getPossibleRecipientList(filter: string): Promise<UserProfile[]> {
-        const endpoint = `Recipients/${filter}`;
+        const endpoint = `UserProfile/filter/${filter}`;
 
         const fullUrl = new URL(endpoint, BackendApi.rootUrl).href;
 
@@ -59,7 +59,7 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
     async getToken(): Promise<string> {
 
         const item = await EncryptedStorage.getItem('user_session');
-        if(item){
+        if (item) {
             const session = JSON.parse(item) as UserSession;
             return session.accesstoken;
         }
@@ -67,14 +67,45 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
     }
 
 
-    pushNewMemory(memoryToSend: MemoryVideoUpload, recipientsUniqueUserName: string[], caption?: string): Promise<void> {
+    async pushNewMemory(memoryToSend: MemoryVideoUpload, recipientsUniqueUserName: string[], caption?: string): Promise<void> {
+        const form = new FormData();
+
+        form.append('memory', {
+            uri: memoryToSend.path,
+            type: memoryToSend.mimeType,
+            name: 'uselessNameNotUsedByTheServer.mp4',
+        });
+
         const dto: PostMemory = {
             memoryCaption: caption,
             recipients: recipientsUniqueUserName
         };
 
-        
-    }
+        const jsonContent = JSON.stringify(dto);
 
+        form.append('jsonDto', jsonContent);
+
+        const endpoint = 'RandomMemories';
+
+        const fullUrl = new URL(endpoint, BackendApi.rootUrl);
+
+        const token = await this.getToken();
+        const bearerToken = `Bearer ${token}`;
+
+        try {
+            await fetch(fullUrl.href, {
+                method: 'POST',
+                headers: {
+                    'Authorization': bearerToken,
+                    'Content-Type': 'multipart/form-data'
+                },
+                body: form
+            });
+
+        } catch (err) {
+            console.log(err);
+            return;
+        }
+    }
 }
 
