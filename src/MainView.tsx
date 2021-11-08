@@ -7,87 +7,80 @@ import {
     View,
     Image,
 } from 'react-native';
-import { LoginComponent } from './views/components/login.component';
+import { ProfileComponent } from './views/components/profile.component';
 import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
 import { RootStackParamList } from './navigation/navigation-types';
 import { LoginStoreService } from './services/stores/login.store.service';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
+import { observer } from 'mobx-react';
+import { LoadingComponent } from './views/components/loading.component';
 
 export type MainViewNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'MainView'
 >;
 
+export const MainView: React.FC<MainViewNavigationProp> = observer(
+    ({ navigation }: MainViewNavigationProp) => {
+        const loginStoreService = useInjection<LoginStoreService>(
+            AppContainerTypes.LoginStoreService
+        );
 
+        useEffect(() => {
+            if (!loginStoreService.alreadyLogin) {
+                loginStoreService.login();
+            }
+        }, []);
 
+        if (!loginStoreService.alreadyLogin) {
+            return (
+                <LoadingComponent
+                    loginStoreService={loginStoreService}
+                ></LoadingComponent>
+            );
+        } else {
+            return (
+                <ImageBackground
+                    source={require('./assets/images/Lake.jpg')}
+                    style={MainViewStyle.background}
+                >
+                    <View style={MainViewStyle.container}>
+                        <View style={MainViewStyle.loginComponent}>
+                            <ProfileComponent
+                                loginStoreService={loginStoreService}
+                            ></ProfileComponent>
+                        </View>
 
-export const MainView: React.FC<MainViewNavigationProp> = ({ navigation }: MainViewNavigationProp) => {
-    const loginStoreService = useInjection<LoginStoreService>(
-        AppContainerTypes.LoginStoreService
-    );
-    const [errorOccured, setErrorOccured] = useState(false);
+                        <View style={MainViewStyle.bottomContainer}>
+                            <TouchableOpacity
+                                style={MainViewStyle.loveButton}
+                                onPress={() => {
+                                    navigation.navigate('MemoryVideo');
+                                }}
+                            >
+                                <Text style={MainViewStyle.loveButtonText}>
+                  I need some love
+                                </Text>
+                            </TouchableOpacity>
 
-    useEffect(() => {
-        if (!loginStoreService.isLoginSuccessfull) {
-            loginStoreService
-                .login()
-                .then((userProfile) => {
-                    if (!userProfile) {
-                        navigation.navigate('UserProfileCreation');
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    loginStoreService.logout();
-                    setErrorOccured(true);
-                });
+                            <TouchableOpacity
+                                style={MainViewStyle.uploadMemoryButton}
+                                onPress={() => {
+                                    navigation.navigate('UploadMemory');
+                                }}
+                            >
+                                <Image
+                                    style={MainViewStyle.uploadMemoryImage}
+                                    source={require('./assets/images/upload.png')}
+                                ></Image>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ImageBackground>
+            );
         }
-    }, []);
-
-    return (
-        <ImageBackground
-            source={require('./assets/images/Lake.jpg')}
-            style={MainViewStyle.background}
-        >
-            <View style={MainViewStyle.container}>
-                <View style={MainViewStyle.loginComponent}>
-                    {!errorOccured && (
-                        <LoginComponent
-                            loginStoreService={loginStoreService}
-                        ></LoginComponent>
-                    )}
-                    {errorOccured && (
-                        <Text>Okay something is wrong but i will deal with it later</Text>
-                    )}
-                </View>
-
-                <View style={MainViewStyle.bottomContainer}>
-                    <TouchableOpacity
-                        style={MainViewStyle.loveButton}
-                        onPress={() => {
-                            navigation.navigate('MemoryVideo');
-                        }}
-                    >
-                        <Text style={MainViewStyle.loveButtonText}>I need some love</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={MainViewStyle.uploadMemoryButton}
-                        onPress={() => {
-                            navigation.navigate('UploadMemory');
-                        }}
-                    >
-                        <Image
-                            style={MainViewStyle.uploadMemoryImage}
-                            source={require('./assets/images/upload.png')}
-                        ></Image>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </ImageBackground>
-    );
-};
+    }
+);
 
 export default MainView;

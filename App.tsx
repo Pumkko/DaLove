@@ -14,7 +14,7 @@ import { UploadMemoryScreen } from './src/views/screens/upload-memory/upload-mem
 import { Notifications, Registered, RegistrationError } from 'react-native-notifications';
 import { UploadMemoryPickRecipientScreen } from './src/views/screens/upload-memory/upload-memory-pick-recipient.screen';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import { LoadingScreen } from './src/views/screens/loading.screen';
+import { LoadingComponent } from './src/views/components/loading.component';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -54,8 +54,6 @@ const App: React.FC = () => {
                     }}
                 >
                     <Stack.Screen name="MainView" component={MainView} />
-
-                    <Stack.Screen name="LoadingScreen" component={LoadingScreen}/>
 
                     <Stack.Screen name="MemoryVideo" component={MemoryVideoScreen} />
 
