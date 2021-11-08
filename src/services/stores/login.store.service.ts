@@ -17,6 +17,7 @@ export class LoginStoreService {
     };
 
     hasValidAvatar = false;
+    errorDuringLogin = false;
 
     @inject(AppContainerTypes.IAuthService) private readonly authService!: IAuthService
     @inject(AppContainerTypes.IUserProfileService) private readonly userProfileService!: IUserProfileService;
@@ -24,12 +25,13 @@ export class LoginStoreService {
     constructor() {
         makeObservable<LoginStoreService>(this, {
             userProfile: observable,
+            errorDuringLogin: observable,
             hasValidAvatar: observable,
-            isLoginSuccessfull: computed
+            alreadyLogin: computed
         });
     }
 
-    get isLoginSuccessfull(): boolean {
+    get alreadyLogin(): boolean {
         return this.userProfile.uniqueUserName as unknown as boolean;
     }
 
@@ -38,26 +40,36 @@ export class LoginStoreService {
     }
 
     async login(): Promise<UserProfile | null> {
-        await this.authService.login();
 
-        const userProfile = await this.userProfileService.getConnectedUserProfile();
+        try {
+            await this.authService.login();
 
-        if (!userProfile) {
+            const userProfile = await this.userProfileService.getConnectedUserProfile();
+
+            if (!userProfile) {
+                return null;
+            }
+
+            await this.userProfileService.updateFcmDeviceToken();
+
+            runInAction(() => {
+                if (userProfile.avatarUri) {
+                    this.hasValidAvatar = true;
+                }
+            });
+
+            return runInAction(() => {
+                this.userProfile = userProfile;
+                return userProfile;
+            });
+        }
+        catch {
+            runInAction(() => {
+                this.errorDuringLogin = true;
+            });
+            await this.logout();
             return null;
         }
-
-        await this.userProfileService.updateFcmDeviceToken();
-
-        runInAction(() => {
-            if (userProfile.avatarUri) {
-                this.hasValidAvatar = true;
-            }
-        });
-
-        return runInAction(() => {
-            this.userProfile = userProfile;
-            return userProfile;
-        });
     }
 
     async logout(): Promise<void> {

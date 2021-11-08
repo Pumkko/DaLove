@@ -1,7 +1,7 @@
 
 import { StyleSheet } from 'react-native';
 
-const LoginComponentStyle = StyleSheet.create({
+const ProfileComponentStyle = StyleSheet.create({
     avatarStyle: {
         width: 32,
         height: 32,
@@ -11,4 +11,4 @@ const LoginComponentStyle = StyleSheet.create({
     },
 });
 
-export default LoginComponentStyle;
+export default ProfileComponentStyle;

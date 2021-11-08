@@ -14,70 +14,78 @@ export type MemoryVideoViewNavigationProp = NativeStackScreenProps<
   'MemoryVideo'
 >;
 
-export const MemoryVideoScreen: React.FC<MemoryVideoViewNavigationProp> = observer(
-    ({ navigation }: MemoryVideoViewNavigationProp) => {
+export const MemoryVideoScreen: React.FC<MemoryVideoViewNavigationProp> =
+  observer(({ navigation }: MemoryVideoViewNavigationProp) => {
+      const memoryStoreService = useInjection<MemoryStoreService>(
+          AppContainerTypes.MemoryStoreService
+      );
 
-        const memoryStoreService = useInjection<MemoryStoreService>(AppContainerTypes.MemoryStoreService);
+      const width = Dimensions.get('screen').width;
+      const height = Dimensions.get('screen').height;
 
-        const width = Dimensions.get('screen').width;
-        const height = Dimensions.get('screen').height;
+      useEffect(() => {
+          memoryStoreService.getRandomMemory();
+      }, []);
 
-        useEffect(() => {
-            memoryStoreService.getRandomMemory();         
-        }, []);
+      if (memoryStoreService.hasValidMemorySource) {
+          return (
+              <View style={{ flex: 1, backgroundColor: 'black' }}>
+                  <Video
+                      source={{ uri: memoryStoreService.memory.memoryUri }}
+                      resizeMode={'contain'}
+                      style={{
+                          aspectRatio: width / height,
+                          width: '100%',
+                      }}
+                      autoplay={true}
+                      onEnd={() => {
+                          navigation.goBack();
+                      }}
+                  />
 
-        if (memoryStoreService.hasValidMemorySource) {
-            return (
-                <View style={{flex: 1, backgroundColor: 'black'  }}>
-        
-                    <Video
-                        source={{ uri: memoryStoreService.memory.memoryUri }}
-                        resizeMode={'contain'}
-                        style={{
-                            aspectRatio: width / height,
-                            width: '100%'
-                        }}
-                        autoplay={true}
-                        onEnd={() => {
-                            navigation.goBack();
-                        }}
-                    />
+                  <View style={{ marginTop: -150 }}>
+                      {memoryStoreService.memory.memoryFriendlyName ? (
+                          <Text style={MemoryVideoScreenStyle.sharedBy}>
+                              {memoryStoreService.memory.memoryFriendlyName}
+                          </Text>
+                      ) : (
+                          <Text style={MemoryVideoScreenStyle.sharedBy}>Shared by</Text>
+                      )}
 
-                    <View style={{ marginTop: -150}}>
+                      <View style={MemoryVideoScreenStyle.creatorProfileContainer}>
+                          {memoryStoreService.memory.creator.avatarUri ? (
+                              <Image
+                                  style={MemoryVideoScreenStyle.avatarStyle}
+                                  source={{ uri: memoryStoreService.memory.creator.avatarUri }}
+                              ></Image>
+                          ) : (
+                              <Image
+                                  style={MemoryVideoScreenStyle.avatarStyle}
+                                  source={require('../../assets/images/blank_avatar.png')}
+                              ></Image>
+                          )}
 
-                        <Text style={MemoryVideoScreenStyle.sharedBy}>Shared by</Text>
-
-                        <View style={MemoryVideoScreenStyle.creatorProfileContainer}>
-                            {memoryStoreService.memory.creator.avatarUri ? (
-                                <Image
-                                    style={MemoryVideoScreenStyle.avatarStyle}
-                                    source={{ uri: memoryStoreService.memory.creator.avatarUri }}
-                                ></Image>
-                            ) : (
-                                <Image
-                                    style={MemoryVideoScreenStyle.avatarStyle}
-                                    source={require('../../assets/images/blank_avatar.png')}
-                                ></Image>
-                            )}
-
-                            <View style={{height: 64, width: '100%'}}>
-                                <Text style={MemoryVideoScreenStyle.displayName}>{memoryStoreService.memory.creator.displayName}</Text>
-                                <Text style={MemoryVideoScreenStyle.uniqueName}>{memoryStoreService.memory.creator.uniqueUserName}</Text>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-            );  
-        } else {
-            return (
-                <View
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <ActivityIndicator size="large" />
-                </View>
-            );
-        }
-    }
-);
+                          <View style={{ height: 64, width: '100%' }}>
+                              <Text style={MemoryVideoScreenStyle.displayName}>
+                                  {memoryStoreService.memory.creator.displayName}
+                              </Text>
+                              <Text style={MemoryVideoScreenStyle.uniqueName}>
+                                  {memoryStoreService.memory.creator.uniqueUserName}
+                              </Text>
+                          </View>
+                      </View>
+                  </View>
+              </View>
+          );
+      } else {
+          return (
+              <View
+                  style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+              >
+                  <ActivityIndicator size="large" />
+              </View>
+          );
+      }
+  });
 
 export default MemoryVideoScreen;
