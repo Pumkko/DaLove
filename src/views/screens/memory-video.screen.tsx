@@ -4,16 +4,18 @@ import { ActivityIndicator, Dimensions, Image, Text, View } from 'react-native';
 import { observer } from 'mobx-react';
 import { useInjection } from 'inversify-react';
 import { AppContainerTypes } from '../../inversify/app-container-types';
-import { MemoryVideoViewNavigationProp } from '../../navigation/navigation-types';
+import { RootStackParamList } from '../../navigation/navigation-types';
 import { MemoryStoreService } from '../../services/stores/memory.store.service';
 import MemoryVideoScreenStyle from './memory-video.screen.style';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-type Props = {
-  navigation: MemoryVideoViewNavigationProp;
-};
+export type MemoryVideoViewNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'MemoryVideo'
+>;
 
-export const MemoryVideoScreen: React.FC<Props> = observer(
-    ({ navigation }: Props) => {
+export const MemoryVideoScreen: React.FC<MemoryVideoViewNavigationProp> = observer(
+    ({ navigation }: MemoryVideoViewNavigationProp) => {
 
         const memoryStoreService = useInjection<MemoryStoreService>(AppContainerTypes.MemoryStoreService);
 

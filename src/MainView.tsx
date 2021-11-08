@@ -10,14 +10,20 @@ import {
 import { LoginComponent } from './views/components/login.component';
 import { AppContainerTypes } from './inversify/app-container-types';
 import MainViewStyle from './MainView.style';
-import { MainViewNavigationProp } from './navigation/navigation-types';
+import { RootStackParamList } from './navigation/navigation-types';
 import { LoginStoreService } from './services/stores/login.store.service';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-type Props = {
-  navigation: MainViewNavigationProp;
-};
 
-export const MainView: React.FC<Props> = ({ navigation }: Props) => {
+export type MainViewNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'MainView'
+>;
+
+
+
+
+export const MainView: React.FC<MainViewNavigationProp> = ({ navigation }: MainViewNavigationProp) => {
     const loginStoreService = useInjection<LoginStoreService>(
         AppContainerTypes.LoginStoreService
     );

@@ -24,9 +24,9 @@ const AppContainer: interfaceContainerMethod = () => {
     container.bind<MemoryStoreService>(AppContainerTypes.MemoryStoreService).to(MemoryStoreService);
     container.bind<UploadMemoryStoreService>(AppContainerTypes.UploadMemoryStoreService).to(UploadMemoryStoreService);
 
-    container.bind<IAuthService>(AppContainerTypes.IAuthService).to(Auth0Service);
-    container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(UserProfileService);
-    container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(ApiMemoryService);
+    container.bind<IAuthService>(AppContainerTypes.IAuthService).to(FakeAuthService);
+    container.bind<IUserProfileService>(AppContainerTypes.IUserProfileService).to(FakeUserProfileService);
+    container.bind<IRandomMemoryAccessService>(AppContainerTypes.IRandomMemoryAccessService).to(FakeMemoryVideoService);
 
     return container;
 };

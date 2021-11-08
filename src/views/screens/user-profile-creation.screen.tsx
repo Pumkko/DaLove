@@ -1,17 +1,15 @@
 import { useInjection } from 'inversify-react';
 import ImagePicker from 'react-native-image-crop-picker';
 import React, { useEffect, useState } from 'react';
-import { Text, Image, View, Alert } from 'react-native';
+import { Text, Image, View } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { AppContainerTypes } from '../../inversify/app-container-types';
 import MainViewStyle from '../../MainView.style';
-import { UserProfileCreationNavigationProp } from '../../navigation/navigation-types';
+import { RootStackParamList } from '../../navigation/navigation-types';
 import { LoginStoreService } from '../../services/stores/login.store.service';
 import { UserProfileCreationStyle } from './user-profile-creation.screen.style';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-type Props = {
-  navigation: UserProfileCreationNavigationProp;
-};
 
 class AvatarRequire {
   static path = require('../../assets/images/blank_avatar.png');
@@ -22,9 +20,15 @@ export interface AvatarSource {
   mimeType: string;
 }
 
-export const UserProfileCreationScreen: React.FC<Props> = ({
+export type UserProfileCreationNavigationProp = NativeStackScreenProps<
+  RootStackParamList,
+  'UserProfileCreation'
+>;
+
+
+export const UserProfileCreationScreen: React.FC<UserProfileCreationNavigationProp> = ({
     navigation,
-}: Props) => {
+}: UserProfileCreationNavigationProp) => {
     const loginStoreService = useInjection<LoginStoreService>(
         AppContainerTypes.LoginStoreService
     );
