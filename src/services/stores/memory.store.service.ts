@@ -18,6 +18,7 @@ export class MemoryStoreService {
         memoryFriendlyName: ''
     };
 
+    noMemoryForUser = false;
     possibleRecipient: UserProfile[] = [];
 
     @inject(AppContainerTypes.IRandomMemoryAccessService) private readonly memoryServiceService!: IRandomMemoryAccessService
@@ -25,6 +26,7 @@ export class MemoryStoreService {
     constructor() {
         makeObservable<MemoryStoreService>(this, {
             memory: observable,
+            noMemoryForUser: observable,
             possibleRecipient: observable,
             hasValidMemorySource: computed,
             getRandomMemory: action
@@ -38,7 +40,12 @@ export class MemoryStoreService {
     async getRandomMemory(): Promise<void> {
         const memory = await this.memoryServiceService.getRandomMemory();
         runInAction(() => {
-            this.memory = memory;
+            if (memory === null) {
+                this.noMemoryForUser = true;
+            } else {
+
+                this.memory = memory;
+            }
         });
     }
 }

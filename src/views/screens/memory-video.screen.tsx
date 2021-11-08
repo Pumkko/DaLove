@@ -78,13 +78,31 @@ export const MemoryVideoScreen: React.FC<MemoryVideoViewNavigationProp> =
               </View>
           );
       } else {
-          return (
-              <View
-                  style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-              >
-                  <ActivityIndicator size="large" />
-              </View>
-          );
+          if (memoryStoreService.noMemoryForUser) {
+              return (
+                  <View
+                      style={{
+                          flex: 1,
+                          justifyContent: 'center',
+                      }}
+                  >
+                      <Text style={{
+                          alignSelf: 'center',
+                          fontSize: 20
+                      }}>
+              No one loves you yet, but don't worry someone will one day
+                      </Text>
+                  </View>
+              );
+          } else {
+              return (
+                  <View
+                      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                  >
+                      <ActivityIndicator size="large" />
+                  </View>
+              );
+          }
       }
   });
 

@@ -7,7 +7,7 @@ export interface UriVideoSource {
 }
 
 export interface IRandomMemoryAccessService {
-    getRandomMemory(): Promise<GetMemory>
+    getRandomMemory(): Promise<GetMemory | null>
     getPossibleRecipientList(filter: string): Promise<UserProfile[]>
     pushNewMemory(memoryToSend: MemoryVideoUpload, recipientsUniqueUserName: string[], caption?: string): Promise<void>;
 }

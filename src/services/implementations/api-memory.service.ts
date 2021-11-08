@@ -14,7 +14,7 @@ import { MemoryVideoUpload } from '../stores/upload-memory.store.service';
 
 @injectable()
 export class ApiMemoryService implements IRandomMemoryAccessService {
-    async getRandomMemory(): Promise<GetMemory> {
+    async getRandomMemory(): Promise<GetMemory | null> {
         const endpoint = 'RandomMemories';
 
         const fullUrl = new URL(endpoint, BackendApi.rootUrl).href;
@@ -29,6 +29,11 @@ export class ApiMemoryService implements IRandomMemoryAccessService {
                 'Authorization': bearerToken
             }
         });
+
+        if(response.status === 204){
+            return null;
+        }        
+
         const jsonMemory = await response.json();
         return jsonMemory;
     }
