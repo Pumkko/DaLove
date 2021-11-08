@@ -1,5 +1,3 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { UploadMemoryStoreService } from '../services/stores/upload-memory.store.service';
 
 export type RootStackParamList = {

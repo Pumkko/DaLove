@@ -28,8 +28,21 @@ export const MainView: React.FC<MainViewNavigationProp> = observer(
         );
 
         useEffect(() => {
+            console.log('in main view effect');
             if (!loginStoreService.alreadyLogin) {
-                loginStoreService.login();
+
+                console.log('try to login');
+                loginStoreService.login().then(() => {
+                    if (
+                        !loginStoreService.errorDuringLogin &&
+                        !loginStoreService.alreadyLogin
+                    ) {
+                        // The user does not have a profile
+                        navigation.navigate('UserProfileCreation');
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         }, []);
 

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -8,6 +8,7 @@ import {
     TextInput,
     TouchableOpacity,
     ListRenderItem,
+    ActivityIndicator,
 } from 'react-native';
 import { UserProfile } from '../../../data/user-profile';
 import { RootStackParamList } from '../../../navigation/navigation-types';
@@ -26,6 +27,9 @@ export const UploadMemoryPickRecipientScreen: React.FC<PickMemoryRecipientProp> 
       let currentTimer: NodeJS.Timeout;
 
       const uploadMemoryStoreService = route.params.uploadMemoryStoreService;
+
+
+      const [isLoading, setIsLoading] = useState(false);
 
       const renderProfile: ListRenderItem<UserProfile> = ({ item }) => {
           return (
@@ -74,6 +78,7 @@ export const UploadMemoryPickRecipientScreen: React.FC<PickMemoryRecipientProp> 
                   <TouchableOpacity
                       style={UploadMemoryStyle.buttonShareMemory}
                       onPress={() => {
+                          setIsLoading(true);
                           uploadMemoryStoreService.uploadMemory().then(() => {
                               navigation.navigate('MainView');
                           });
@@ -84,6 +89,7 @@ export const UploadMemoryPickRecipientScreen: React.FC<PickMemoryRecipientProp> 
                       </Text>
                   </TouchableOpacity>
               )}
+              {isLoading && <ActivityIndicator size="large"></ActivityIndicator>}
           </View>
       );
   });
