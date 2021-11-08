@@ -10,31 +10,5 @@ export type RootStackParamList = {
   PickMemoryRecipient: {
     uploadMemoryStoreService: UploadMemoryStoreService
   };
+  LoadingScreen: undefined;
 };
-
-
-
-export type MainViewNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'MainView'
->;
-
-export type MemoryVideoViewNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'MemoryVideo'
->;
-
-export type UserProfileCreationNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'UserProfileCreation'
->;
-
-export type UploadMemoryNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'UploadMemory'
->
-
-export type PickMemoryRecipientProp = NativeStackScreenProps<
-  RootStackParamList,
-  'PickMemoryRecipient'
->

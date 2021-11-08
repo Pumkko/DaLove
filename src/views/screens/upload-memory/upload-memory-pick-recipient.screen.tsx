@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import {
@@ -9,10 +10,16 @@ import {
     ListRenderItem,
 } from 'react-native';
 import { UserProfile } from '../../../data/user-profile';
-import { PickMemoryRecipientProp } from '../../../navigation/navigation-types';
-import { UploadMemoryStoreService } from '../../../services/stores/upload-memory.store.service';
+import { RootStackParamList } from '../../../navigation/navigation-types';
 import MemoryRecipientFlatItemComponent from '../../components/memory-recipient-flat-item.component';
 import UploadMemoryStyle from './upload-memory.style';
+
+
+export type PickMemoryRecipientProp = NativeStackScreenProps<
+  RootStackParamList,
+  'PickMemoryRecipient'
+>
+
 
 export const UploadMemoryPickRecipientScreen: React.FC<PickMemoryRecipientProp> =
   observer(({ route, navigation }: PickMemoryRecipientProp) => {
